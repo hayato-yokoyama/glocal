@@ -5,14 +5,11 @@
     "plugin:import/warnings",
     "prettier"
   ],
+  "plugins": ["unused-imports", "sort-keys-fix", "typescript-sort-keys"],
   "rules": {
-    "import/order": [
-      "error",
-      {
-        "alphabetize": {
-          "order": "asc"
-        }
-      }
-    ]
+    "@typescript-eslint/no-unused-vars": "off",
+    "unused-imports/no-unused-imports": "warn",
+    "sort-keys-fix/sort-keys-fix": "warn",
+    "typescript-sort-keys/interface": "error"
   }
 }
