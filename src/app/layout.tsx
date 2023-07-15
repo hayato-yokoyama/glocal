@@ -1,4 +1,5 @@
 import "./globals.css";
+import Header from "@/components/header/Header";
 
 export const metadata = {
   content: "width=device-width,initial-scale=1.0,maximum-scale=1.0",
@@ -14,11 +15,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <body>
-        <header>
-          <h1>Glocal</h1>
-        </header>
-        <main>{children}</main>
+      <body className="h-screen bg-background-primary">
+        <Header />
+        <main className="mx-auto max-w-sm">{children}</main>
       </body>
     </html>
   );

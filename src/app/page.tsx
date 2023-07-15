@@ -3,7 +3,7 @@ export default function Home() {
     <div className="flex flex-col gap-y-8">
       <fieldset>
         <legend>場所</legend>
-        <input type="text" placeholder="新宿駅" className="border" />
+        <input type="text" placeholder="新宿駅" />
         <div>
           <span>から</span>
           <select>
@@ -19,7 +19,7 @@ export default function Home() {
       </fieldset>
       <fieldset>
         <legend>キーワード</legend>
-        <input type="text" className="border" />
+        <input type="text" />
       </fieldset>
       <fieldset>
         <legend>ジャンル</legend>
