@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const GENRE_LIST = [
   "レストラン",
@@ -71,10 +72,13 @@ export default function Home() {
         <input type="checkbox" className="accent-primary-400" />
         営業中のスポットのみを表示
       </label>
-      <button className="flex items-center justify-center gap-x-2 rounded-full bg-secondary p-4 font-bold">
+      <Link
+        href="/search"
+        className="flex items-center justify-center gap-x-2 rounded-full bg-secondary p-4 font-bold"
+      >
         <Image src="search.svg" width={24} height={24} alt="" />
         この条件で探す
-      </button>
+      </Link>
     </div>
   );
 }
