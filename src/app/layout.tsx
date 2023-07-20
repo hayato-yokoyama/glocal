@@ -17,7 +17,9 @@ export default function RootLayout({
     <html lang="ja">
       <body className="h-screen bg-background-primary">
         <Header />
-        <main className="mx-auto max-w-sm px-2 pt-3">{children}</main>
+        <main className="mx-auto max-w-sm px-2 pt-3 md:max-w-md xl:max-w-xl">
+          {children}
+        </main>
       </body>
     </html>
   );
