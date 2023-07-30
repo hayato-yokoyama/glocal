@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 const GENRE_LIST = [
   "レストラン",
@@ -12,6 +15,15 @@ const GENRE_LIST = [
 ];
 
 export default function Home() {
+  const [place, setPlace] = useState("");
+  const handleChangePlace = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPlace(e.target.value);
+  };
+
+  const handleClickCurrentLocation = () => {
+    setPlace("現在地");
+  };
+
   return (
     <div className="flex flex-col gap-y-8">
       <fieldset className="flex flex-col gap-y-2">
@@ -23,11 +35,16 @@ export default function Home() {
           <input
             type="text"
             placeholder="新宿駅"
+            value={place}
+            onChange={handleChangePlace}
             className="w-7 flex-1 rounded-lg border-2 border-stone-500 p-2 focus:border-accent focus:outline-none"
           />
         </div>
         <div className="ml-auto flex items-center gap-x-2">
-          <button className="border-lg m-auto rounded-full border-2 border-primary-400 bg-white px-4 py-2 text-xs">
+          <button
+            onClick={handleClickCurrentLocation}
+            className="border-lg m-auto rounded-full border-2 border-primary-400 bg-white px-4 py-2 text-xs"
+          >
             現在地検索
           </button>
           <select className="w-fit rounded-lg  border-2 border-stone-500 p-2 focus:border-accent focus:outline-none">
