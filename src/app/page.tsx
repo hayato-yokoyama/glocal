@@ -22,7 +22,11 @@ type filtering = {
 };
 
 export default function Home() {
-  const { register, handleSubmit } = useForm<filtering>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<filtering>();
   const onSubmit = (data: filtering) => alert(JSON.stringify(data));
 
   return (
@@ -32,14 +36,16 @@ export default function Home() {
           <Image src="pin.svg" width={32} height={32} alt="" />
           場所
         </legend>
-        <div className="flex items-center gap-x-2">
-          <input
-            type="text"
-            placeholder="新宿駅"
-            {...register("place", { required: true })}
-            className="w-7 flex-1 rounded-lg border-2 border-stone-500 p-2 focus:border-accent focus:outline-none"
-          />
-        </div>
+        <p className="font-bold text-red-600">
+          {errors.place && errors.place.message}
+        </p>
+        <input
+          type="text"
+          placeholder="新宿駅"
+          {...register("place", { required: "場所を入力してください" })}
+          className="rounded-lg border-2 border-stone-500 p-2 focus:border-accent focus:outline-none"
+        />
+
         <div className="ml-auto flex items-center gap-x-2">
           {/* TODO: 現在地ボタンをクリックすると現在地が検索ワードに入るようにする */}
           <button className="border-lg m-auto rounded-full border-2 border-primary-400 bg-white px-4 py-2 text-xs">
