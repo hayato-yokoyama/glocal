@@ -24,10 +24,15 @@ type filtering = {
 export default function Home() {
   const {
     register,
+    setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<filtering>();
   const onSubmit = (data: filtering) => alert(JSON.stringify(data));
+
+  const handleClickCurrentLocation = () => {
+    setValue("place", "現在地");
+  };
 
   return (
     <form className="flex flex-col gap-y-8" onSubmit={handleSubmit(onSubmit)}>
@@ -47,8 +52,11 @@ export default function Home() {
         />
 
         <div className="ml-auto flex items-center gap-x-2">
-          {/* TODO: 現在地ボタンをクリックすると現在地が検索ワードに入るようにする */}
-          <button className="border-lg m-auto rounded-full border-2 border-primary-400 bg-white px-4 py-2 text-xs">
+          <button
+            type="button"
+            className="border-lg m-auto rounded-full border-2 border-primary-400 bg-white px-4 py-2 text-xs"
+            onClick={handleClickCurrentLocation}
+          >
             現在地検索
           </button>
           <select
