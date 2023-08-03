@@ -37,14 +37,18 @@ export default function Home() {
   return (
     <form className="flex flex-col gap-y-8" onSubmit={handleSubmit(onSubmit)}>
       <fieldset className="flex flex-col gap-y-2">
-        <legend className="flex items-center gap-x-2 px-1 py-2 font-bold">
+        <label
+          htmlFor="place"
+          className="flex items-center gap-x-2 px-1 pt-2 font-bold"
+        >
           <Image src="pin.svg" width={32} height={32} alt="" />
           場所
-        </legend>
-        <p className="font-bold text-red-600">
-          {errors.place && errors.place.message}
-        </p>
+        </label>
+        {errors.place && (
+          <p className="font-bold text-red-600">{errors.place.message}</p>
+        )}
         <input
+          id="place"
           type="text"
           placeholder="新宿駅"
           {...register("place", { required: "場所を入力してください" })}
@@ -74,11 +78,15 @@ export default function Home() {
       </fieldset>
 
       <fieldset>
-        <legend className="flex items-center gap-x-2 px-1 py-2 font-bold">
+        <label
+          htmlFor="keyword"
+          className="flex items-center gap-x-2 px-1 py-2 font-bold"
+        >
           <Image src="pen.svg" width={32} height={32} alt="" />
           キーワード
-        </legend>
+        </label>
         <input
+          id="keyword"
           type="text"
           {...register("keyword")}
           className="w-full rounded-lg border-2 border-stone-500 p-2 focus:border-accent focus:outline-none"
