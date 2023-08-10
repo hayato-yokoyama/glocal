@@ -4,7 +4,10 @@ const searchPage = () => {
   return (
     <div className="flex flex-col gap-y-3">
       <section className="group">
-        <button className="block w-full rounded-xl bg-background-secondary">
+        <div
+          tabIndex={0}
+          className="block w-full cursor-pointer rounded-xl bg-background-secondary"
+        >
           <div className="relative aspect-video">
             <Image
               src="/mt.jpeg"
@@ -31,10 +34,13 @@ const searchPage = () => {
               <span>公園</span>
             </div>
           </div>
-        </button>
+        </div>
         <div className="hidden group-focus-within:block">
           <div className="absolute left-0 top-0 block h-full w-full bg-black/70">
-            <button className="mx-auto mt-[15%] block max-h-[80%] w-5/6 overflow-y-scroll rounded-lg bg-background-secondary p-3">
+            <div
+              tabIndex={0}
+              className="mx-auto mt-[15%] block max-h-[80%] w-5/6 cursor-pointer overflow-y-scroll rounded-lg bg-background-secondary p-3"
+            >
               <div className="relative aspect-video">
                 <Image
                   src="/mt.jpeg"
@@ -127,7 +133,7 @@ const searchPage = () => {
                   </p>
                 </section>
               </div>
-            </button>
+            </div>
           </div>
         </div>
       </section>
