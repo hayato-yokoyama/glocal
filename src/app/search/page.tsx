@@ -1,6 +1,11 @@
 import Image from "next/image";
 
-const searchPage = () => {
+const searchPage = async () => {
+  const data = await (
+    await fetch("http://localhost:3001/api/searchPlace")
+  ).json();
+  console.log(data);
+
   return (
     <div className="flex flex-col gap-y-3">
       <section className="group">
