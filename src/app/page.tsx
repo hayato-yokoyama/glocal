@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 const GENRE_LIST = [
@@ -28,7 +29,13 @@ export default function Home() {
     handleSubmit,
     formState: { errors },
   } = useForm<filtering>();
-  const onSubmit = (data: filtering) => alert(JSON.stringify(data));
+
+  const router = useRouter();
+
+  const onSubmit = (data: filtering) => {
+    console.log(JSON.stringify(data));
+    router.push("/search");
+  };
 
   const handleClickCurrentLocation = () => {
     setValue("place", "現在地");
