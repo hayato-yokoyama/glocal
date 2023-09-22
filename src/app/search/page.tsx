@@ -56,7 +56,7 @@ const searchPage = async () => {
   const searchPlaces = fetchData.results;
 
   return (
-    <div className="flex flex-col gap-y-3">
+    <div className="flex flex-col gap-y-4">
       {searchPlaces.map((place) => {
         return (
           <SearchCard
