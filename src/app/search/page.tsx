@@ -1,6 +1,7 @@
 import SearchCard from "@/components/search/SearchCard";
+import { SEARCH_PLACES } from "@/constants/search";
 
-type fetchData = {
+export type SearchPlaceFetchData = {
   html_attributions: [];
   results: SearchPlace[];
 };
@@ -25,7 +26,7 @@ type SearchPlace = {
   };
   icon: string;
   name: string;
-  opening_hours: {
+  opening_hours?: {
     open_now: boolean;
   };
   photos: SearchPlacePhoto[];
@@ -50,9 +51,12 @@ export type SearchPlacePhoto = {
 };
 
 const searchPage = async () => {
-  const fetchData: fetchData = await (
-    await fetch("http://localhost:3000/api/searchPlace")
-  ).json();
+  // const fetchData: fetchData = await (
+  //   await fetch("http://localhost:3000/api/searchPlace")
+  // ).json();
+  // const searchPlaces = fetchData.results;
+
+  const fetchData: SearchPlaceFetchData = SEARCH_PLACES;
   const searchPlaces = fetchData.results;
 
   return (
