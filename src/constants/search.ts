@@ -1,4 +1,4 @@
-import { SearchPlaceFetchData } from "@/app/search/page";
+import { SearchPlaceFetchData } from "@/types/search";
 
 export const SEARCH_PLACES: SearchPlaceFetchData = {
   html_attributions: [],
