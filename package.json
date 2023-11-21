@@ -9,7 +9,22 @@
     "lint": "next lint --ignore-path .gitignore",
     "lint:fix": "next lint --ignore-path .gitignore --fix",
     "lint:html": "markuplint \"**/*.{jsx,tsx}\"",
-    "format": "prettier --write --ignore-path .gitignore './**/*.{js,jsx,ts,tsx,json,css,scss}'"
+    "format": "prettier --write --ignore-path .gitignore './**/*.{js,jsx,ts,tsx,json,css,scss}'",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.{ts,js}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{tsx,jsx,html}": [
+      "eslint --fix",
+      "markuplint",
+      "prettier --write"
+    ],
+    "*.{json,md,yml}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@types/node": "20.2.5",
@@ -35,6 +50,8 @@
     "eslint-plugin-sort-keys-fix": "^1.1.2",
     "eslint-plugin-typescript-sort-keys": "^2.3.0",
     "eslint-plugin-unused-imports": "^2.0.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.1.0",
     "markuplint": "^3.12.0",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0"
