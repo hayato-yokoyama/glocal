@@ -14,7 +14,7 @@ const GENRE_LIST = [
   "ホテル",
 ];
 
-type filtering = {
+export type filtering = {
   distance: number;
   genre: string[];
   isOpen: boolean;
@@ -32,9 +32,10 @@ export default function Home() {
 
   const router = useRouter();
 
-  const onSubmit = (data: filtering) => {
-    console.log(JSON.stringify(data));
-    router.push("/search");
+  const onSubmit = (params: filtering) => {
+    const queryString = encodeURIComponent(JSON.stringify(params));
+    const url = `/search/${queryString}`;
+    router.push(url);
   };
 
   const handleClickCurrentLocation = () => {
