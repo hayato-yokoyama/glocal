@@ -3,7 +3,7 @@ import { SEARCH_PLACES } from "@/constants/search";
 import { SearchParams } from "@/types/common";
 import { SearchPlaceFetchData } from "@/types/search";
 
-const searchPage = async ({ params }: { params: { slug: string } }) => {
+const SearchPage = ({ params }: { params: { slug: string } }) => {
   // const fetchData: fetchData = await (
   //   await fetch("http://localhost:3000/api/searchPlace")
   // ).json();
@@ -37,4 +37,4 @@ const searchPage = async ({ params }: { params: { slug: string } }) => {
     </div>
   );
 };
-export default searchPage;
+export default SearchPage;
