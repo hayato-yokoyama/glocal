@@ -1,5 +1,6 @@
 "use client";
 
+import { SearchParams } from "@/types/common";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -14,25 +15,17 @@ const GENRE_LIST = [
   "ホテル",
 ];
 
-export type filtering = {
-  distance: number;
-  genre: string[];
-  isOpen: boolean;
-  keyword: string;
-  place: string;
-};
-
 export default function Home() {
   const {
     register,
     setValue,
     handleSubmit,
     formState: { errors },
-  } = useForm<filtering>();
+  } = useForm<SearchParams>();
 
   const router = useRouter();
 
-  const onSubmit = (params: filtering) => {
+  const onSubmit = (params: SearchParams) => {
     const queryString = encodeURIComponent(JSON.stringify(params));
     const url = `/search/${queryString}`;
     router.push(url);

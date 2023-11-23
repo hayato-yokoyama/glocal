@@ -1,6 +1,6 @@
-import { filtering } from "@/app/page";
 import SearchCard from "@/components/search/SearchCard";
 import { SEARCH_PLACES } from "@/constants/search";
+import { SearchParams } from "@/types/common";
 import { SearchPlaceFetchData } from "@/types/search";
 
 const searchPage = async ({ params }: { params: { slug: string } }) => {
@@ -10,7 +10,7 @@ const searchPage = async ({ params }: { params: { slug: string } }) => {
   // const searchPlaces = fetchData.results;
 
   const searchParamsString = decodeURIComponent(params.slug);
-  const searchParams: filtering = JSON.parse(searchParamsString);
+  const searchParams: SearchParams = JSON.parse(searchParamsString);
 
   const fetchData: SearchPlaceFetchData = SEARCH_PLACES;
   const searchPlaces = fetchData.results;
