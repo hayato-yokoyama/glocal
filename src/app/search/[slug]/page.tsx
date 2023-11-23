@@ -6,14 +6,32 @@ import { SearchPlaceFetchData } from "@/types/search";
 
 /** 地名や施設名から緯度経度取得する（ジオコーディングする） */
 const getLatLng = async (address: string) => {
-  const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`;
-  const res = await fetch(url);
-  const data: GeocodingResponse = await res.json();
-  const latLng = {
-    lat: data.results[0].geometry.location.lat,
-    lng: data.results[0].geometry.location.lng,
-  };
-  return latLng;
+  try {
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+    const res = await fetch(url);
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch geocoding data. Status: ${res.status}`);
+    }
+    const data: GeocodingResponse = await res.json();
+
+    if (data.results.length === 0) {
+      throw new Error("No results found for the provided address.");
+    }
+
+    const latLng = {
+      lat: data.results[0].geometry.location.lat,
+      lng: data.results[0].geometry.location.lng,
+    };
+    return latLng;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("Error in getLatLng:", error.message);
+    } else {
+      console.error("Unknown error in getLatLng");
+    }
+    throw error;
+  }
 };
 
 const SearchPage = async ({ params }: { params: { slug: string } }) => {
