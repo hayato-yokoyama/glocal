@@ -1,18 +1,26 @@
 import SearchCard from "@/components/search/SearchCard";
 import { SEARCH_PLACES } from "@/constants/search";
+import { SearchParams } from "@/types/common";
 import { SearchPlaceFetchData } from "@/types/search";
 
-const searchPage = async () => {
+const searchPage = async ({ params }: { params: { slug: string } }) => {
   // const fetchData: fetchData = await (
   //   await fetch("http://localhost:3000/api/searchPlace")
   // ).json();
   // const searchPlaces = fetchData.results;
+
+  const searchParamsString = decodeURIComponent(params.slug);
+  const searchParams: SearchParams = JSON.parse(searchParamsString);
 
   const fetchData: SearchPlaceFetchData = SEARCH_PLACES;
   const searchPlaces = fetchData.results;
 
   return (
     <div className="flex flex-col gap-y-4">
+      <p>
+        <span className="mr-0.5 text-lg font-bold">{searchParams.place}</span>
+        での検索結果
+      </p>
       {searchPlaces.map((place) => {
         return (
           <SearchCard
