@@ -32,9 +32,10 @@ const getLatLng = async (address: string) => {
   }
 };
 
-const searchPlaces = async () => {
+/** 指定条件から場所を検索する */
+const searchPlaces = async (lat: number, lng: number, radius: number) => {
   try {
-    const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${process.env.GOOGLE_MAPS_API_KEY}&location=35.6987769,139.76471&radius=300&language=ja`;
+    const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${process.env.GOOGLE_MAPS_API_KEY}&location=${lat},${lng}&radius=${radius}&language=ja`;
     const res = await fetch(url);
     const data: PlaceSearchResponse = await res.json();
     const places = data.results.map((place) => ({
@@ -65,13 +66,15 @@ const SearchPage = async ({ params }: { params: { slug: string } }) => {
   const latLng = await getLatLng(searchParams.place);
 
   /** 取得した場所 */
-  const places = await searchPlaces();
-
-  // const fetchData: SearchPlaceFetchData = SEARCH_PLACES;
-  // const searchPlaces = fetchData.results;
+  const places = await searchPlaces(
+    latLng.lat,
+    latLng.lng,
+    searchParams.distance
+  );
 
   return (
     <div className="flex flex-col gap-y-4">
+      <p>{places[1].placeName}</p>
       {latLng && (
         <div>
           緯度: {latLng.lat}, 経度: {latLng.lng}
