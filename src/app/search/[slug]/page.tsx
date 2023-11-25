@@ -89,8 +89,7 @@ const SearchPage = async ({ params }: { params: { slug: string } }) => {
         return (
           <SearchCard
             key={place.placeId}
-            // TODO: photoをAPIから取得するようにする
-            photo="/mt.jpeg"
+            photo={place.photo ? place.photo[0] : undefined}
             place={place.placeName}
             placeTypes={place.placeTypes}
             rating={place.rating ? place.rating : 0}
