@@ -72,20 +72,24 @@ const SearchPage = async ({ params }: { params: { slug: string } }) => {
     searchParams.distance
   );
 
+  /** レビュー数（ratingsTotal）でソートしたplaces */
+  const sortedPlaces = places.sort((a, b) => {
+    if (a.ratingsTotal === undefined) {
+      return 1;
+    }
+    if (b.ratingsTotal === undefined) {
+      return -1;
+    }
+    return b.ratingsTotal - a.ratingsTotal;
+  });
+
   return (
     <div className="flex flex-col gap-y-4">
-      <p>{places[1].placeName}</p>
-      {latLng && (
-        <div>
-          緯度: {latLng.lat}, 経度: {latLng.lng}
-        </div>
-      )}
-
       <p>
         <span className="mr-0.5 text-lg font-bold">{searchParams.place}</span>
         での検索結果
       </p>
-      {places.map((place) => {
+      {sortedPlaces.map((place) => {
         return (
           <SearchCard
             key={place.placeId}
