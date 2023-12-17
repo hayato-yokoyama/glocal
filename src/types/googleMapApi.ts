@@ -34,7 +34,7 @@ export type PlaceSearchResponse = {
   status: string;
 };
 
-type PlaceResult = {
+export type PlaceResult = {
   business_status?: string;
   geometry: {
     location: LatLng;
