@@ -6,7 +6,14 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
-  "cSpell.words": ["daisyui", "Glocal", "markuplint", "tailwindcss", "trivago"],
+  "cSpell.words": [
+    "daisyui",
+    "Glocal",
+    "markuplint",
+    "pagetoken",
+    "tailwindcss",
+    "trivago"
+  ],
   "editor.quickSuggestions": {
     "strings": true
   }

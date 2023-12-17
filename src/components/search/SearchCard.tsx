@@ -35,11 +35,12 @@ const SearchCard = ({
     <section className="rounded-xl bg-background-secondary">
       <div className="relative aspect-video">
         <Image
-          src={
-            photo
-              ? getPhotoUrl(photo.photo_reference)
-              : "/no-image-available.svg"
-          }
+          // src={
+          //   photo
+          //     ? getPhotoUrl(photo.photo_reference)
+          //     : "/no-image-available.svg"
+          // }
+          src="/no-image-available.svg"
           fill
           alt=""
           className={`rounded-t-xl ${
