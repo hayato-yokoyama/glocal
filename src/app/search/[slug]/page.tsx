@@ -37,27 +37,36 @@ const getLatLng = async (address: string) => {
 };
 
 /** 指定条件から場所を検索する */
-const searchPlaces = async (lat: number, lng: number, radius: number) => {
+const searchPlaces = async (
+  lat: number,
+  lng: number,
+  searchParams: SearchParams
+) => {
   const fetchPlaces = async (token?: string) => {
     const url = new URL(
       "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
     );
     url.searchParams.append("key", process.env.GOOGLE_MAPS_API_KEY as string);
     url.searchParams.append("location", `${lat},${lng}`);
-    url.searchParams.append("radius", radius.toString());
+    url.searchParams.append("radius", searchParams.distance.toString());
     url.searchParams.append("language", "ja");
+    if (searchParams.keyword) {
+      url.searchParams.append("keyword", searchParams.keyword);
+    }
+    if (searchParams.genre) {
+      url.searchParams.append("type", searchParams.genre);
+    }
+    if (searchParams.isOpen) {
+      url.searchParams.append("opennow", "true");
+    }
+
     if (token) {
       url.searchParams.append("pagetoken", token);
     }
-
     const res = await fetch(url);
     const data: PlaceSearchResponse = await res.json();
     return data;
   };
-
-  // 待機処理を行う関数
-  const delay = (ms: number) =>
-    new Promise((resolve) => setTimeout(resolve, ms));
 
   try {
     const allPlaces: PlaceResult[] = [];
@@ -102,11 +111,7 @@ const SearchPage = async ({ params }: { params: { slug: string } }) => {
   const latLng = await getLatLng(searchParams.place);
 
   /** 取得した場所 */
-  const places = await searchPlaces(
-    latLng.lat,
-    latLng.lng,
-    searchParams.distance
-  );
+  const places = await searchPlaces(latLng.lat, latLng.lng, searchParams);
 
   /** レビュー数（ratingsTotal）でソートしたplaces */
   const sortedPlaces = places.sort((a, b) => {
