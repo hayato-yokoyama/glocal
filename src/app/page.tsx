@@ -6,13 +6,50 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 const GENRE_LIST = [
-  "レストラン",
-  "観光地",
-  "カフェ",
-  "公園",
-  "居酒屋",
-  "バー",
-  "ホテル",
+  {
+    jaName: "飲食店",
+    value: "food",
+  },
+  {
+    jaName: "カフェ",
+    value: "cafe",
+  },
+  {
+    jaName: "観光地",
+    value: "tourist_attraction",
+  },
+  {
+    jaName: "パン屋",
+    value: "bakery",
+  },
+  {
+    jaName: "公園",
+    value: "park",
+  },
+  {
+    jaName: "駐車場",
+    value: "parking",
+  },
+  {
+    jaName: "温泉・銭湯",
+    value: "spa",
+  },
+  {
+    jaName: "ホテル・宿",
+    value: "lodging",
+  },
+  {
+    jaName: "ガソリンスタンド",
+    value: "gas_station",
+  },
+  {
+    jaName: "ショッピングモール",
+    value: "shopping_mall",
+  },
+  {
+    jaName: "バー・スナック",
+    value: "bar",
+  },
 ];
 
 export default function Home() {
@@ -104,13 +141,13 @@ export default function Home() {
             return (
               <label key={index}>
                 <input
-                  type="checkbox"
+                  type="radio"
                   className="peer hidden"
                   {...register("genre")}
-                  value={genre}
+                  value={genre.value}
                 />
                 <span className="inline-block rounded-full border-2 border-primary-400 bg-white px-3 py-2 text-sm peer-checked:bg-primary-400 peer-checked:font-bold">
-                  {genre}
+                  {genre.jaName}
                 </span>
               </label>
             );
