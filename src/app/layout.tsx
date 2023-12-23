@@ -1,5 +1,6 @@
 import "./globals.css";
 import Header from "@/components/header/Header";
+import Script from "next/script";
 
 export const metadata = {
   content: "width=device-width,initial-scale=1.0,maximum-scale=1.0",
@@ -15,6 +16,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
+      <Script
+        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_API_KEY}&libraries=places`}
+      />
       <body className="h-screen bg-background-primary">
         <Header />
         <main className="mx-auto max-w-sm px-2 py-4 md:max-w-md xl:max-w-xl">

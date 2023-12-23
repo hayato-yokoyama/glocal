@@ -27,6 +27,7 @@
     ]
   },
   "dependencies": {
+    "@googlemaps/js-api-loader": "^1.16.2",
     "@types/node": "20.2.5",
     "@types/react": "18.2.7",
     "@types/react-dom": "18.2.4",
@@ -45,6 +46,7 @@
     "@markuplint/jsx-parser": "^3.9.0",
     "@markuplint/react-spec": "^3.10.0",
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
+    "@types/google.maps": "^3.54.10",
     "@typescript-eslint/parser": "^5.59.7",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-sort-keys-fix": "^1.1.2",

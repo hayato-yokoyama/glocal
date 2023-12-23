@@ -1,7 +1,7 @@
 export type SearchParams = {
   distance: number;
-  genre: string;
-  isOpen: boolean;
-  keyword: string;
+  genre?: string;
+  isOpen?: boolean;
+  keyword?: string;
   place: string;
 };

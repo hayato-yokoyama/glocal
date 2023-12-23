@@ -1,106 +1,54 @@
+"use client";
+
 import SearchCard from "@/components/search/SearchCard";
 import { SearchParams } from "@/types/common";
-import {
-  GeocodingResponse,
-  PlaceResult,
-  PlaceSearchResponse,
-} from "@/types/googleMapApi";
+import { LatLng } from "@/types/googleMapApi";
 
 /** 地名や施設名から緯度経度取得する（ジオコーディングする） */
-const getLatLng = async (address: string) => {
-  try {
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
-    const res = await fetch(url);
-
-    if (!res.ok) {
-      throw new Error(`Failed to fetch geocoding data. Status: ${res.status}`);
-    }
-    const data: GeocodingResponse = await res.json();
-
-    if (data.results.length === 0) {
-      throw new Error("No results found for the provided address.");
-    }
-
-    const latLng = {
-      lat: data.results[0].geometry.location.lat,
-      lng: data.results[0].geometry.location.lng,
-    };
-    return latLng;
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error("Error in getLatLng:", error.message);
-    } else {
-      console.error("Unknown error in getLatLng");
-    }
-    throw error;
-  }
+const getLatLng = (address: string): Promise<{ lat: number; lng: number }> => {
+  return new Promise((resolve, reject) => {
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ address: address }, (results, status) => {
+      if (status === "OK" && results) {
+        const location = results[0].geometry.location;
+        resolve({
+          lat: location.lat(),
+          lng: location.lng(),
+        });
+      } else {
+        reject(
+          "Geocode was not successful for the following reason: " + status
+        );
+      }
+    });
+  });
 };
 
 /** 指定条件から場所を検索する */
-const searchPlaces = async (
-  lat: number,
-  lng: number,
+const searchPlaces = (
+  latLng: LatLng,
   searchParams: SearchParams
-) => {
-  const fetchPlaces = async (token?: string) => {
-    const url = new URL(
-      "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
+): Promise<google.maps.places.PlaceResult[]> => {
+  return new Promise((resolve, reject) => {
+    const service = new google.maps.places.PlacesService(
+      document.createElement("div")
     );
-    url.searchParams.append("key", process.env.GOOGLE_MAPS_API_KEY as string);
-    url.searchParams.append("location", `${lat},${lng}`);
-    url.searchParams.append("radius", searchParams.distance.toString());
-    url.searchParams.append("language", "ja");
-    if (searchParams.keyword) {
-      url.searchParams.append("keyword", searchParams.keyword);
-    }
-    if (searchParams.genre) {
-      url.searchParams.append("type", searchParams.genre);
-    }
-    if (searchParams.isOpen) {
-      url.searchParams.append("opennow", "true");
-    }
+    const request: google.maps.places.PlaceSearchRequest = {
+      keyword: searchParams.keyword,
+      location: new google.maps.LatLng(latLng.lat, latLng.lng),
+      openNow: searchParams.isOpen,
+      radius: searchParams.distance,
+      type: searchParams.genre,
+    };
 
-    if (token) {
-      url.searchParams.append("pagetoken", token);
-    }
-    const res = await fetch(url);
-    const data: PlaceSearchResponse = await res.json();
-    return data;
-  };
-
-  try {
-    const allPlaces: PlaceResult[] = [];
-    const data1 = await fetchPlaces();
-    // 最初の20件を追加
-    allPlaces.push(...data1.results);
-    if (data1.next_page_token) {
-      // 2回目のリクエスト
-      const data2 = await fetchPlaces(data1.next_page_token);
-      allPlaces.push(...data2.results);
-      if (data2.next_page_token) {
-        // 3回目のリクエスト
-        const data3 = await fetchPlaces(data2.next_page_token);
-        allPlaces.push(...data3.results);
+    service.nearbySearch(request, (results, status) => {
+      if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+        resolve(results);
+      } else {
+        reject("Search was not successful for the following reason: " + status);
       }
-    }
-
-    return allPlaces.map((place) => ({
-      isOpen: place.opening_hours?.open_now,
-      photo: place.photos,
-      placeId: place.place_id,
-      placeName: place.name,
-      placeTypes: place.types,
-      rating: place.rating,
-      ratingsTotal: place.user_ratings_total,
-    }));
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error("Error in searchPlaces:", error.message);
-    } else {
-      console.error("Unknown error in searchPlaces");
-    }
-    throw error;
-  }
+    });
+  });
 };
 
 const SearchPage = async ({ params }: { params: { slug: string } }) => {
@@ -111,17 +59,17 @@ const SearchPage = async ({ params }: { params: { slug: string } }) => {
   const latLng = await getLatLng(searchParams.place);
 
   /** 取得した場所 */
-  const places = await searchPlaces(latLng.lat, latLng.lng, searchParams);
+  const places = await searchPlaces(latLng, searchParams);
 
   /** レビュー数（ratingsTotal）でソートしたplaces */
   const sortedPlaces = places.sort((a, b) => {
-    if (a.ratingsTotal === undefined) {
+    if (a.user_ratings_total === undefined) {
       return 1;
     }
-    if (b.ratingsTotal === undefined) {
+    if (b.user_ratings_total === undefined) {
       return -1;
     }
-    return b.ratingsTotal - a.ratingsTotal;
+    return b.user_ratings_total - a.user_ratings_total;
   });
 
   return (
@@ -134,12 +82,14 @@ const SearchPage = async ({ params }: { params: { slug: string } }) => {
       {sortedPlaces.map((place) => {
         return (
           <SearchCard
-            key={place.placeId}
-            photo={place.photo ? place.photo[0] : undefined}
-            place={place.placeName}
-            placeTypes={place.placeTypes}
-            rating={place.rating ? place.rating : 0}
-            ratingTotal={place.ratingsTotal ? place.ratingsTotal : 0}
+            key={place.place_id}
+            // photo={place.photo ? place.photo[0] : undefined}
+            place={place.name || "unnamed"}
+            placeTypes={place.types || []}
+            rating={place.rating || 0}
+            ratingTotal={
+              place.user_ratings_total ? place.user_ratings_total : 0
+            }
           />
         );
       })}
