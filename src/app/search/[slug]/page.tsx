@@ -83,7 +83,11 @@ const SearchPage = async ({ params }: { params: { slug: string } }) => {
         return (
           <SearchCard
             key={place.place_id}
-            // photo={place.photo ? place.photo[0] : undefined}
+            photo={
+              place.photos
+                ? place.photos[0].getUrl()
+                : "/no-image-available.svg"
+            }
             place={place.name || "unnamed"}
             placeTypes={place.types || []}
             rating={place.rating || 0}

@@ -5,22 +5,11 @@ import Image from "next/image";
 import { useState } from "react";
 
 type SearchCardProps = {
-  photo?: {
-    height: number;
-    html_attributions: string[];
-    photo_reference: string;
-    width: number;
-  };
+  photo: string;
   place: string;
   placeTypes: string[];
   rating: number;
   ratingTotal: number;
-};
-
-/** photoReferenceから検索結果の写真を取得する */
-const getPhotoUrl = (photoReference: string) => {
-  const url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=560&photoreference=${photoReference}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
-  return url;
 };
 
 const SearchCard = ({
@@ -35,12 +24,7 @@ const SearchCard = ({
     <section className="rounded-xl bg-background-secondary">
       <div className="relative aspect-video">
         <Image
-          // src={
-          //   photo
-          //     ? getPhotoUrl(photo.photo_reference)
-          //     : "/no-image-available.svg"
-          // }
-          src="/no-image-available.svg"
+          src={photo}
           fill
           alt=""
           className={`rounded-t-xl ${
