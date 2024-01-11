@@ -1,8 +1,5 @@
-"use client";
-
 import SearchCardDetail from "@/components/search/SearchCardDetail";
 import Image from "next/image";
-import { useState } from "react";
 
 type SearchCardProps = {
   photo?: {
@@ -30,7 +27,6 @@ const SearchCard = ({
   rating,
   ratingTotal,
 }: SearchCardProps) => {
-  const [isOpenedDetail, setIsOpenedDetail] = useState(false);
   return (
     <section className="rounded-xl bg-background-secondary">
       <div className="relative aspect-video">
@@ -68,17 +64,12 @@ const SearchCard = ({
               return <span key={index}>{placeType}</span>;
             })}
           </div>
-          {!isOpenedDetail && (
-            <button onClick={() => setIsOpenedDetail(true)}>もっと見る</button>
-          )}
         </div>
-        {isOpenedDetail && (
-          <SearchCardDetail
-            mapUrl="/"
-            phoneNumber="00011112222"
-            webSiteUrl="https://example.com/"
-          />
-        )}
+        <SearchCardDetail
+          mapUrl="/"
+          phoneNumber="00011112222"
+          webSiteUrl="https://example.com/"
+        />
       </div>
     </section>
   );

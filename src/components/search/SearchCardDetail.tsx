@@ -1,5 +1,8 @@
+"use client";
+
 import SearchCardDetailReviews from "@/components/search/SearchCardDetailReviews";
 import Image from "next/image";
+import { useState } from "react";
 
 type SearchCardDetailProps = {
   mapUrl: string;
@@ -36,12 +39,16 @@ const SearchCardDetail = ({
   phoneNumber,
   webSiteUrl,
 }: SearchCardDetailProps) => {
+  const [isOpenedDetail, setIsOpenedDetail] = useState(false);
+  if (!isOpenedDetail) {
+    return <button onClick={() => setIsOpenedDetail(true)}>もっと見る</button>;
+  }
   return (
     <div className="flex flex-col gap-y-3">
       <hr />
       <ul className="flex flex-col gap-y-2">
         <li className="flex gap-x-3">
-          <Image src="gmap.svg" alt="" width={20} height={20} />
+          <Image src="/gmap.svg" alt="" width={20} height={20} />
           <a
             href={mapUrl}
             className="underline"
@@ -52,7 +59,7 @@ const SearchCardDetail = ({
           </a>
         </li>
         <li className="flex gap-x-3">
-          <Image src="world.svg" alt="" width={20} height={20} />
+          <Image src="/world.svg" alt="" width={20} height={20} />
           <a
             href={webSiteUrl}
             className="line-clamp-1 underline"
@@ -63,11 +70,11 @@ const SearchCardDetail = ({
           </a>
         </li>
         <li className="flex gap-x-3">
-          <Image src="clock.svg" alt="" width={20} height={20} />
+          <Image src="/clock.svg" alt="" width={20} height={20} />
           <span className="text-red-600">営業時間外</span>
         </li>
         <li className="flex gap-x-3">
-          <Image src="tel.svg" alt="" width={20} height={20} />
+          <Image src="/tel.svg" alt="" width={20} height={20} />
           <a href={`tel:${phoneNumber}`} className="line-clamp-1 underline">
             {phoneNumber}
           </a>
