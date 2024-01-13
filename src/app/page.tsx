@@ -63,8 +63,24 @@ export default function Home() {
   const router = useRouter();
 
   const onSubmit = (params: SearchParams) => {
-    const queryString = encodeURIComponent(JSON.stringify(params));
-    const url = `/search/${queryString}`;
+    const { place, distance, keyword, genre, isOpen } = params;
+
+    // prettier-ignore
+    const pathParams = `${encodeURIComponent(place)}/${encodeURIComponent(distance)}`;
+
+    let queryParams = `?`;
+
+    if (keyword !== "") {
+      queryParams += `keyword=${encodeURIComponent(keyword)}&`;
+    }
+    if (genre !== null) {
+      queryParams += `genre=${encodeURIComponent(genre)}&`;
+    }
+    if (isOpen) {
+      queryParams += `isOpen=${encodeURIComponent(isOpen)}&`;
+    }
+
+    const url = `/search/${pathParams}${queryParams.slice(0, -1)}`;
     router.push(url);
   };
 
