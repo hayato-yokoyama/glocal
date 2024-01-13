@@ -103,15 +103,32 @@ const searchPlaces = async (
   }
 };
 
-const SearchPage = async ({ params }: { params: { slug: string } }) => {
-  const searchParamsString = decodeURIComponent(params.slug);
-  const searchParams: SearchParams = JSON.parse(searchParamsString);
+const SearchPage = async ({
+  params,
+  searchParams,
+}: {
+  params: { distance: number; place: string };
+  searchParams: { genre?: string; isOpen?: boolean; keyword?: string };
+}) => {
+  const formattedSearchParams: SearchParams = {
+    distance: params.distance,
+    genre: searchParams.genre ? decodeURIComponent(searchParams.genre) : "",
+    isOpen: searchParams.isOpen ? true : false,
+    keyword: searchParams.keyword
+      ? decodeURIComponent(searchParams.keyword)
+      : "",
+    place: decodeURIComponent(params.place),
+  };
 
   /** 緯度経度 { lat:緯度 lng:経度 } */
-  const latLng = await getLatLng(searchParams.place);
+  const latLng = await getLatLng(formattedSearchParams.place);
 
   /** 取得した場所 */
-  const places = await searchPlaces(latLng.lat, latLng.lng, searchParams);
+  const places = await searchPlaces(
+    latLng.lat,
+    latLng.lng,
+    formattedSearchParams
+  );
 
   /** レビュー数（ratingsTotal）でソートしたplaces */
   const sortedPlaces = places.sort((a, b) => {
@@ -128,7 +145,9 @@ const SearchPage = async ({ params }: { params: { slug: string } }) => {
     <div className="flex flex-col gap-y-4">
       <p>検索件数 {sortedPlaces.length}件</p>
       <p>
-        <span className="mr-0.5 text-lg font-bold">{searchParams.place}</span>
+        <span className="mr-0.5 text-lg font-bold">
+          {formattedSearchParams.place}
+        </span>
         での検索結果
       </p>
       {sortedPlaces.map((place) => {
