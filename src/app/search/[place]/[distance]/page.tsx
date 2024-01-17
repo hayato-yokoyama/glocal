@@ -27,12 +27,7 @@ const getLatLng = async (address: string) => {
     };
     return latLng;
   } catch (error) {
-    if (error instanceof Error) {
-      console.error("Error in getLatLng:", error.message);
-    } else {
-      console.error("Unknown error in getLatLng");
-    }
-    throw error;
+    return;
   }
 };
 
@@ -122,6 +117,17 @@ const SearchPage = async ({
 
   /** 緯度経度 { lat:緯度 lng:経度 } */
   const latLng = await getLatLng(formattedSearchParams.place);
+
+  if (!latLng) {
+    return (
+      <div className="text-center">
+        <p>
+          <span className="mr-2 font-bold">{formattedSearchParams.place}</span>
+          に一致する場所が見つかりませんでした。
+        </p>
+      </div>
+    );
+  }
 
   /** 取得した場所 */
   const places = await searchPlaces(
