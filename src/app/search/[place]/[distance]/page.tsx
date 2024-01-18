@@ -1,4 +1,5 @@
 import SearchCard from "@/components/search/SearchCard";
+import SearchNotFoundPlace from "@/components/search/SearchNotFoundPlace";
 import { SearchParams } from "@/types/common";
 import {
   GeocodingResponse,
@@ -119,14 +120,7 @@ const SearchPage = async ({
   const latLng = await getLatLng(formattedSearchParams.place);
 
   if (!latLng) {
-    return (
-      <div className="text-center">
-        <p>
-          <span className="mr-2 font-bold">{formattedSearchParams.place}</span>
-          に一致する場所が見つかりませんでした。
-        </p>
-      </div>
-    );
+    return <SearchNotFoundPlace place={formattedSearchParams.place} />;
   }
 
   /** 取得した場所 */
