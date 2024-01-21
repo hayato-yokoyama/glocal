@@ -1,10 +1,13 @@
 import SearchCard from "@/components/search/SearchCard";
+import SearchNotFoundPlace from "@/components/search/SearchNotFoundPlace";
 import { SearchParams } from "@/types/common";
 import {
   GeocodingResponse,
   PlaceResult,
   PlaceSearchResponse,
 } from "@/types/googleMapApi";
+import Image from "next/image";
+import Link from "next/link";
 
 /** 地名や施設名から緯度経度取得する（ジオコーディングする） */
 const getLatLng = async (address: string) => {
@@ -27,12 +30,7 @@ const getLatLng = async (address: string) => {
     };
     return latLng;
   } catch (error) {
-    if (error instanceof Error) {
-      console.error("Error in getLatLng:", error.message);
-    } else {
-      console.error("Unknown error in getLatLng");
-    }
-    throw error;
+    return;
   }
 };
 
@@ -123,12 +121,33 @@ const SearchPage = async ({
   /** 緯度経度 { lat:緯度 lng:経度 } */
   const latLng = await getLatLng(formattedSearchParams.place);
 
+  if (!latLng) {
+    return <SearchNotFoundPlace place={formattedSearchParams.place} />;
+  }
+
   /** 取得した場所 */
   const places = await searchPlaces(
     latLng.lat,
     latLng.lng,
     formattedSearchParams
   );
+
+  if (places.length === 0) {
+    return (
+      <div className="relative">
+        <div className="flex h-[calc(100vh_-_90px)] flex-col items-center justify-center font-bold">
+          <p>検索条件にヒットする場所がありませんでした🙇‍♂️</p>
+        </div>
+        <Link
+          href="/"
+          className="absolute bottom-2 flex w-full items-center justify-center gap-x-2 rounded-full bg-primary-400 p-4 font-bold"
+        >
+          <Image src="/search.svg" width={20} height={20} alt="" />
+          検索画面に戻る
+        </Link>
+      </div>
+    );
+  }
 
   /** レビュー数（ratingsTotal）でソートしたplaces */
   const sortedPlaces = places.sort((a, b) => {
