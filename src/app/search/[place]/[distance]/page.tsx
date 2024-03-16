@@ -12,8 +12,9 @@ import Link from "next/link";
 /** 地名や施設名から緯度経度取得する（ジオコーディングする） */
 const getLatLng = async (address: string) => {
   try {
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
-    const res = await fetch(url);
+    const res = await fetch(
+      `http://localhost:3000/api/getLatLng?address=${address}`
+    );
 
     if (!res.ok) {
       throw new Error(`Failed to fetch geocoding data. Status: ${res.status}`);
