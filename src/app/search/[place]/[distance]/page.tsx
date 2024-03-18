@@ -12,8 +12,9 @@ import Link from "next/link";
 /** 地名や施設名から緯度経度取得する（ジオコーディングする） */
 const getLatLng = async (address: string) => {
   try {
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
-    const res = await fetch(url);
+    const res = await fetch(
+      `http://localhost:3000/api/getLatLng?address=${address}`
+    );
 
     if (!res.ok) {
       throw new Error(`Failed to fetch geocoding data. Status: ${res.status}`);
@@ -41,27 +42,16 @@ const searchPlaces = async (
   searchParams: SearchParams
 ) => {
   const fetchPlaces = async (token?: string) => {
-    const url = new URL(
-      "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
+    const res = await fetch(
+      `http://localhost:3000/api/searchPlace?lat=${lat}&lng=${lng}&distance=${searchParams.distance.toString()}&keyword=${
+        searchParams.keyword
+      }&genre=${searchParams.genre}&isOpen=${searchParams.isOpen}&${
+        token && `token=${token}`
+      }`,
+      {
+        cache: "no-store",
+      }
     );
-    url.searchParams.append("key", process.env.GOOGLE_MAPS_API_KEY as string);
-    url.searchParams.append("location", `${lat},${lng}`);
-    url.searchParams.append("radius", searchParams.distance.toString());
-    url.searchParams.append("language", "ja");
-    if (searchParams.keyword) {
-      url.searchParams.append("keyword", searchParams.keyword);
-    }
-    if (searchParams.genre) {
-      url.searchParams.append("type", searchParams.genre);
-    }
-    if (searchParams.isOpen) {
-      url.searchParams.append("opennow", "true");
-    }
-
-    if (token) {
-      url.searchParams.append("pagetoken", token);
-    }
-    const res = await fetch(url);
     const data: PlaceSearchResponse = await res.json();
     return data;
   };
@@ -72,11 +62,12 @@ const searchPlaces = async (
     // 最初の20件を追加
     allPlaces.push(...data1.results);
     if (data1.next_page_token) {
-      // 2回目のリクエスト
+      // next_page_token が数秒後に有効になるので、固定で2秒待機
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       const data2 = await fetchPlaces(data1.next_page_token);
       allPlaces.push(...data2.results);
       if (data2.next_page_token) {
-        // 3回目のリクエスト
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         const data3 = await fetchPlaces(data2.next_page_token);
         allPlaces.push(...data3.results);
       }
