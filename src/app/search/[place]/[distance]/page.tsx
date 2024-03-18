@@ -56,23 +56,19 @@ const searchPlaces = async (
     return data;
   };
 
-  // TODO: 固定で5秒待つようにしているところを、promiseが解決するまで待つようにしたい
-  // await fetchPlaces() だけだと待ってくれず20件しか返されない
   try {
     const allPlaces: PlaceResult[] = [];
     const data1 = await fetchPlaces();
-    await new Promise((resolve) => setTimeout(resolve, 5000));
     // 最初の20件を追加
     allPlaces.push(...data1.results);
     if (data1.next_page_token) {
-      // 2回目のリクエスト
+      // next_page_token が数秒後に有効になるので、固定で2秒待機
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       const data2 = await fetchPlaces(data1.next_page_token);
-      await new Promise((resolve) => setTimeout(resolve, 5000));
       allPlaces.push(...data2.results);
       if (data2.next_page_token) {
-        // 3回目のリクエスト
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         const data3 = await fetchPlaces(data2.next_page_token);
-        await new Promise((resolve) => setTimeout(resolve, 5000));
         allPlaces.push(...data3.results);
       }
     }
