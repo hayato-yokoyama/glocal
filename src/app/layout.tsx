@@ -1,6 +1,6 @@
 import "./globals.css";
 import Header from "@/components/header/Header";
-import { MantineProvider } from "@mantine/core";
+import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 
 export const metadata = {
@@ -15,6 +15,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
+      <head>
+        <ColorSchemeScript />
+      </head>
       <body className="bg-background-primary h-screen">
         <MantineProvider>
           <Header />
