@@ -18,10 +18,10 @@ export default function RootLayout({
       <head>
         <ColorSchemeScript />
       </head>
-      <body className="bg-background-primary h-screen">
+      <body>
         <MantineProvider>
           <Header />
-          <main className="mx-auto max-w-sm px-2 py-4 md:max-w-md xl:max-w-xl">
+          <main className="mx-auto max-w-sm md:max-w-md xl:max-w-xl">
             {children}
           </main>
         </MantineProvider>
