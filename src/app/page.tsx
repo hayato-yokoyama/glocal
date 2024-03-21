@@ -1,6 +1,7 @@
 "use client";
 
 import { SearchParams } from "@/types/common";
+import { Button, Checkbox, Radio } from "@mantine/core";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -91,36 +92,24 @@ export default function Home() {
   return (
     <form className="flex flex-col gap-y-8" onSubmit={handleSubmit(onSubmit)}>
       <fieldset className="flex flex-col gap-y-2">
-        <label
-          htmlFor="place"
-          className="flex items-center gap-x-2 px-1 pt-2 font-bold"
-        >
-          <Image src="pin.svg" width={32} height={32} alt="" />
-          場所
-        </label>
-        {errors.place && (
-          <p className="font-bold text-red-600">{errors.place.message}</p>
-        )}
+        <label htmlFor="place">場所</label>
+        {errors.place && <p>{errors.place.message}</p>}
         <input
           id="place"
           type="text"
           placeholder="新宿駅"
           {...register("place", { required: "場所を入力してください" })}
-          className="rounded-lg border-2 border-stone-500 p-2 focus:border-accent focus:outline-none"
         />
 
         <div className="ml-auto flex items-center gap-x-2">
-          <button
+          <Button
             type="button"
-            className="border-lg m-auto rounded-full border-2 border-primary-400 bg-white px-4 py-2 text-xs"
             onClick={handleClickCurrentLocation}
+            variant="light"
           >
             現在地検索
-          </button>
-          <select
-            {...register("distance", { value: 800 })}
-            className="w-fit rounded-lg  border-2 border-stone-500 p-2 focus:border-accent focus:outline-none"
-          >
+          </Button>
+          <select {...register("distance", { value: 800 })}>
             <option value={200}>200m（徒歩2分）</option>
             <option value={500}>500m（徒歩6分）</option>
             <option value={800}>800m（徒歩10分）</option>
@@ -130,63 +119,37 @@ export default function Home() {
           </select>
         </div>
       </fieldset>
-
       <fieldset>
-        <label
-          htmlFor="keyword"
-          className="flex items-center gap-x-2 px-1 py-2 font-bold"
-        >
-          <Image src="pen.svg" width={32} height={32} alt="" />
-          キーワード
-        </label>
-        <input
-          id="keyword"
-          type="text"
-          {...register("keyword")}
-          className="w-full rounded-lg border-2 border-stone-500 p-2 focus:border-accent focus:outline-none"
-        />
+        <label htmlFor="keyword">キーワード</label>
+        <input id="keyword" type="text" {...register("keyword")} />
       </fieldset>
-
       <fieldset>
-        <legend className="flex items-center gap-x-2 px-1 py-2 font-bold">
-          <Image src="cup.svg" width={32} height={32} alt="" />
-          ジャンル
-        </legend>
+        <legend>ジャンル</legend>
         <div className="flex flex-wrap gap-2">
           {GENRE_LIST.map((genre, index) => {
             return (
-              <label key={index}>
-                <input
-                  type="radio"
-                  className="peer hidden"
-                  {...register("genre")}
-                  value={genre.value}
-                />
-                <span className="inline-block rounded-full border-2 border-primary-400 bg-white px-3 py-2 text-sm peer-checked:bg-primary-400 peer-checked:font-bold">
-                  {genre.jaName}
-                </span>
-              </label>
+              <Radio
+                key={index}
+                label={genre.jaName}
+                {...register("genre")}
+                value={genre.value}
+              />
             );
           })}
         </div>
       </fieldset>
-
-      <label className="flex justify-center gap-2">
-        <input
-          type="checkbox"
-          className="accent-primary-400"
-          {...register("isOpen")}
-        />
-        営業中のスポットのみを表示
-      </label>
-
-      <button
+      <Checkbox
+        label="営業中のスポットのみを表示"
+        className="mx-auto"
+        {...register("isOpen")}
+      />
+      <Button
         type="submit"
-        className="flex items-center justify-center gap-x-2 rounded-full bg-secondary p-4 font-bold"
+        variant="filled"
+        fullWidth
       >
-        <Image src="search.svg" width={24} height={24} alt="" />
         この条件で探す
-      </button>
+      </Button>
     </form>
   );
 }
