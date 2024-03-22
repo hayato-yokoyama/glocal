@@ -1,10 +1,23 @@
 "use client";
 
-import { SearchParams } from "@/types/common";
-import { Button, Checkbox, Radio } from "@mantine/core";
-import Image from "next/image";
+import {
+  Button,
+  Checkbox,
+  Fieldset,
+  Radio,
+  Select,
+  TextInput,
+} from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+
+type FormValues = {
+  distance: string;
+  genre: string;
+  isOpen: boolean;
+  keyword: string;
+  place: string;
+};
 
 const GENRE_LIST = [
   {
@@ -54,16 +67,22 @@ const GENRE_LIST = [
 ];
 
 export default function Home() {
-  const {
-    register,
-    setValue,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<SearchParams>();
-
   const router = useRouter();
 
-  const onSubmit = (params: SearchParams) => {
+  const form = useForm<FormValues>({
+    initialValues: {
+      distance: "800",
+      genre: "",
+      isOpen: false,
+      keyword: "",
+      place: "",
+    },
+    validate: {
+      place: (value) => (/^\s*$/.test(value) ? "場所を入力してください" : null),
+    },
+  });
+
+  const handleClickSubmit = (params: FormValues) => {
     const { place, distance, keyword, genre, isOpen } = params;
 
     // prettier-ignore
@@ -74,7 +93,7 @@ export default function Home() {
     if (keyword !== "") {
       queryParams += `keyword=${encodeURIComponent(keyword)}&`;
     }
-    if (genre !== null) {
+    if (genre !== "") {
       queryParams += `genre=${encodeURIComponent(genre)}&`;
     }
     if (isOpen) {
@@ -85,69 +104,58 @@ export default function Home() {
     router.push(url);
   };
 
-  const handleClickCurrentLocation = () => {
-    setValue("place", "現在地");
-  };
-
   return (
-    <form className="flex flex-col gap-y-8" onSubmit={handleSubmit(onSubmit)}>
-      <fieldset className="flex flex-col gap-y-2">
-        <label htmlFor="place">場所</label>
-        {errors.place && <p>{errors.place.message}</p>}
-        <input
-          id="place"
-          type="text"
+    <form
+      onSubmit={form.onSubmit((values) => handleClickSubmit(values))}
+      className="flex flex-col gap-y-8"
+    >
+      <Fieldset className="flex flex-col gap-y-2" variant="unstyled">
+        <TextInput
+          label="場所"
           placeholder="新宿駅"
-          {...register("place", { required: "場所を入力してください" })}
+          {...form.getInputProps("place")}
         />
 
         <div className="ml-auto flex items-center gap-x-2">
           <Button
             type="button"
-            onClick={handleClickCurrentLocation}
+            onClick={() => form.setValues({ place: "現在地" })}
             variant="light"
           >
             現在地検索
           </Button>
-          <select {...register("distance", { value: 800 })}>
-            <option value={200}>200m（徒歩2分）</option>
-            <option value={500}>500m（徒歩6分）</option>
-            <option value={800}>800m（徒歩10分）</option>
-            <option value={1000}>1km（自動車5分）</option>
-            <option value={3000}>3km（自動車8分）</option>
-            <option value={10000}>10km（自動車15分）</option>
-          </select>
+          <Select
+            data={[
+              { label: "200m（徒歩2分）", value: "200" },
+              { label: "500m（徒歩6分）", value: "500" },
+              { label: "800m（徒歩10分）", value: "800" },
+              { label: "1km（自動車5分）", value: "1000" },
+              { label: "3km（自動車8分）", value: "3000" },
+              { label: "10km（自動車15分）", value: "10000" },
+            ]}
+            {...form.getInputProps("distance")}
+          />
         </div>
-      </fieldset>
-      <fieldset>
-        <label htmlFor="keyword">キーワード</label>
-        <input id="keyword" type="text" {...register("keyword")} />
-      </fieldset>
-      <fieldset>
-        <legend>ジャンル</legend>
+      </Fieldset>
+      <Fieldset variant="unstyled">
+        <TextInput
+          label="キーワード"
+          placeholder="オムライス"
+          {...form.getInputProps("keyword")}
+        />
+      </Fieldset>
+      {/* TODO: ジャンルで検索できるようにする */}
+      <Fieldset legend="ジャンル" variant="unstyled">
         <div className="flex flex-wrap gap-2">
           {GENRE_LIST.map((genre, index) => {
             return (
-              <Radio
-                key={index}
-                label={genre.jaName}
-                {...register("genre")}
-                value={genre.value}
-              />
+              <Radio key={index} label={genre.jaName} value={genre.value} />
             );
           })}
         </div>
-      </fieldset>
-      <Checkbox
-        label="営業中のスポットのみを表示"
-        className="mx-auto"
-        {...register("isOpen")}
-      />
-      <Button
-        type="submit"
-        variant="filled"
-        fullWidth
-      >
+      </Fieldset>
+      <Checkbox label="営業中のスポットのみを表示" className="mx-auto" />
+      <Button type="submit" variant="filled" fullWidth>
         この条件で探す
       </Button>
     </form>
