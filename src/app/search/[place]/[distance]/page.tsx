@@ -131,7 +131,7 @@ const SearchPage = async ({
         </div>
         <Link
           href="/"
-          className="absolute bottom-2 flex w-full items-center justify-center gap-x-2 rounded-full bg-primary-400 p-4 font-bold"
+          className="bg-primary-400 absolute bottom-2 flex w-full items-center justify-center gap-x-2 rounded-full p-4 font-bold"
         >
           <Image src="/search.svg" width={20} height={20} alt="" />
           検索画面に戻る
@@ -153,13 +153,13 @@ const SearchPage = async ({
 
   return (
     <div className="flex flex-col gap-y-4">
-      <p>検索件数 {sortedPlaces.length}件</p>
-      <p>
+      <span>
         <span className="mr-0.5 text-lg font-bold">
           {formattedSearchParams.place}
         </span>
         での検索結果
-      </p>
+      </span>
+      <span>検索件数 {sortedPlaces.length}件</span>
       {sortedPlaces.map((place) => {
         return (
           <SearchCard
