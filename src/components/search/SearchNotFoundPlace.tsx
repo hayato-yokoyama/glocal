@@ -1,4 +1,5 @@
 import { Button, Text, Title } from "@mantine/core";
+import { IconSearch } from "@tabler/icons-react";
 import Link from "next/link";
 
 type SearchNotFoundPlaceProps = {
@@ -15,7 +16,13 @@ const SearchNotFoundPlace = ({ place }: SearchNotFoundPlaceProps) => {
           地名ではなく駅名や店舗名などの施設名を入れるとヒットしやすくなります。
         </Text>
         <span>例：新宿 → 新宿駅</span>
-        <Button variant="filled" component={Link} href="/">
+        <Button
+          size="lg"
+          variant="filled"
+          component={Link}
+          href="/"
+          leftSection={<IconSearch size={14} />}
+        >
           条件を選び直す
         </Button>
       </div>

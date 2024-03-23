@@ -1,5 +1,6 @@
 import SearchCardDetail from "@/components/search/SearchCardDetail";
-import { Card, Image } from "@mantine/core";
+import { Card, Group, Image, Title } from "@mantine/core";
+import { IconStarFilled } from "@tabler/icons-react";
 import NextImage from "next/image";
 
 type SearchCardProps = {
@@ -23,35 +24,36 @@ const getPhotoUrl = (photoReference: string) => {
 
 const SearchCard = ({ photo, place, rating, ratingTotal }: SearchCardProps) => {
   return (
-    <Card withBorder>
+    <Card padding="xs" withBorder className="flex flex-col gap-y-3">
       <div className="relative aspect-video">
         <Image
           component={NextImage}
           fill
           src={null}
           alt=""
-          fallbackSrc="/no-image-available.svg"
+          fallbackSrc="/mt.jpeg"
+          radius="sm"
         />
       </div>
-      <div className="flex flex-col gap-y-3">
-        <div className="flex flex-col gap-y-2">
-          <div className="text-left">
-            <span className="mr-2">
-              <span className="mr-1 text-xl font-bold">{ratingTotal}</span>件
-            </span>
-            <span className="mr-2 text-xs">
-              <span>★</span>
-              {rating}
-            </span>
-          </div>
-          <p className="my-0 text-left text-2xl font-bold">{place}</p>
-        </div>
-        <SearchCardDetail
-          mapUrl="/"
-          phoneNumber="00011112222"
-          webSiteUrl="https://example.com/"
-        />
+
+      <div>
+        <Group>
+          <span className="font-bold">
+            <span className="mr-1 text-xl text-pink-600">{ratingTotal}</span>件
+          </span>
+          <span className="flex items-center gap-x-0.5 text-xs">
+            <IconStarFilled size={12} className="fill-amber-400" />
+            {rating}
+          </span>
+        </Group>
+        <Title order={2}>{place}</Title>
       </div>
+
+      <SearchCardDetail
+        mapUrl="/"
+        phoneNumber="00011112222"
+        webSiteUrl="https://example.com/"
+      />
     </Card>
   );
 };

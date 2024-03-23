@@ -6,9 +6,11 @@ import {
   Fieldset,
   Radio,
   Select,
+  Space,
   TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { IconSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 
 type FormValues = {
@@ -111,6 +113,7 @@ export default function Home() {
     >
       <Fieldset className="flex flex-col gap-y-2" variant="unstyled">
         <TextInput
+          size="md"
           label="場所"
           placeholder="新宿駅"
           {...form.getInputProps("place")}
@@ -121,10 +124,12 @@ export default function Home() {
             type="button"
             onClick={() => form.setValues({ place: "現在地" })}
             variant="light"
+            color="cyan"
           >
             現在地検索
           </Button>
           <Select
+            size="md"
             data={[
               { label: "200m（徒歩2分）", value: "200" },
               { label: "500m（徒歩6分）", value: "500" },
@@ -139,13 +144,16 @@ export default function Home() {
       </Fieldset>
       <Fieldset variant="unstyled">
         <TextInput
+          size="md"
           label="キーワード"
           placeholder="オムライス"
           {...form.getInputProps("keyword")}
         />
       </Fieldset>
       {/* TODO: ジャンルで検索できるようにする */}
-      <Fieldset legend="ジャンル" variant="unstyled">
+      <Fieldset variant="unstyled">
+        <legend>ジャンル</legend>
+        <Space h={4} />
         <div className="flex flex-wrap gap-2">
           {GENRE_LIST.map((genre, index) => {
             return (
@@ -155,7 +163,11 @@ export default function Home() {
         </div>
       </Fieldset>
       <Checkbox label="営業中のスポットのみを表示" className="mx-auto" />
-      <Button type="submit" variant="filled" fullWidth>
+      <Button
+        type="submit"
+        variant="filled"
+        leftSection={<IconSearch size={14} />}
+      >
         この条件で探す
       </Button>
     </form>

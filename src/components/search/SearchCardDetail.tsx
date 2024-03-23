@@ -1,8 +1,14 @@
 "use client";
 
 import SearchCardDetailReviews from "@/components/search/SearchCardDetailReviews";
-import { Anchor, Badge, Button, Collapse } from "@mantine/core";
+import { Anchor, Badge, Button, Collapse, Divider } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import {
+  IconMapPinFilled,
+  IconClockFilled,
+  IconWorld,
+  IconPhoneFilled,
+} from "@tabler/icons-react";
 
 type SearchCardDetailProps = {
   mapUrl: string;
@@ -39,7 +45,7 @@ const SearchCardDetail = ({
   phoneNumber,
   webSiteUrl,
 }: SearchCardDetailProps) => {
-  const [opened, { toggle, open }] = useDisclosure(false);
+  const [opened, { open }] = useDisclosure(false);
 
   return (
     <div>
@@ -52,32 +58,48 @@ const SearchCardDetail = ({
       )}
       <Collapse in={opened}>
         <div className="flex flex-col gap-y-3">
-          <ul className="m-0 flex flex-col gap-y-2 p-0">
-            <li className="flex gap-x-3">
-              <Anchor href={mapUrl} target="_blank" rel="noopener noreferrer">
-                GoogleMapで見る
+          <Divider />
+          <ul className="m-0 flex list-none flex-col gap-y-2 p-0">
+            <li className="flex items-center gap-x-3">
+              <IconClockFilled size={16} className="fill-primary" />
+              <Badge variant="light" color="red">
+                営業時間外
+              </Badge>
+            </li>
+            <li className="flex items-center gap-x-3">
+              <IconMapPinFilled size={16} className="fill-primary" />
+              <Anchor
+                href={mapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                c="black"
+                underline="always"
+              >
+                Google Mapで見る
               </Anchor>
             </li>
-            <li className="flex gap-x-3">
+            <li className="flex items-center gap-x-3">
+              <IconWorld size={16} className="text-primary" />
               <Anchor
                 href={webSiteUrl}
                 lineClamp={1}
                 target="_blank"
                 rel="noopener noreferrer"
+                c="black"
+                underline="always"
               >
-                ウェブサイトを見る
+                {webSiteUrl}
               </Anchor>
             </li>
-            <li className="flex gap-x-3">
-              <Badge variant="light" color="red">
-                営業時間外
-              </Badge>
-            </li>
-            <li className="flex gap-x-3">
-              <Anchor href={`tel:${phoneNumber}`}>電話をかける</Anchor>
+            <li className="flex items-center gap-x-3">
+              <IconPhoneFilled size={16} className="fill-primary" />
+              <Anchor href={`tel:${phoneNumber}`} c="black" underline="always">
+                {phoneNumber}
+              </Anchor>
             </li>
           </ul>
-          <ul className="m-0 flex list-none flex-col gap-y-4 p-0 text-xs font-light">
+          <Divider />
+          <ul className="m-0 flex list-none flex-col gap-y-2 p-0 text-xs font-light">
             {REVIEW.map((review, index) => {
               return (
                 <li key={index}>

@@ -1,4 +1,5 @@
 import { Avatar, Text } from "@mantine/core";
+import { IconStarFilled } from "@tabler/icons-react";
 
 type SearchCardDetailReviewsProps = {
   comment: string;
@@ -21,8 +22,8 @@ const SearchCardDetailReviews = ({
       </div>
       <div className="flex gap-x-2">
         <span>1週間前</span>
-        <span>
-          <span>★</span>
+        <span className="flex items-center">
+          <IconStarFilled size={12} className="fill-amber-400" />
           {star}
         </span>
       </div>
