@@ -21,7 +21,7 @@ export default function RootLayout({
       <body>
         <MantineProvider>
           <Header />
-          <main className="mx-auto my-4 max-w-sm md:max-w-md xl:max-w-xl">
+          <main className="mx-auto mb-20 mt-4 max-w-sm md:max-w-md xl:max-w-xl">
             {children}
           </main>
         </MantineProvider>
