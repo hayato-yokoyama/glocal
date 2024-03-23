@@ -151,7 +151,7 @@ const SearchPage = async ({
   });
 
   return (
-    <div className="flex flex-col gap-y-4">
+    <div className="mb-20 flex flex-col gap-y-4">
       <span>
         <span className="mr-0.5 text-lg font-bold">
           {formattedSearchParams.place}

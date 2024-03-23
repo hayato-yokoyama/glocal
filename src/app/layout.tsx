@@ -1,6 +1,6 @@
 import "./globals.css";
 import Header from "@/components/header/Header";
-import { ColorSchemeScript, MantineProvider } from "@mantine/core";
+import { ColorSchemeScript, MantineProvider, Space } from "@mantine/core";
 import "@mantine/core/styles.css";
 
 export const metadata = {
@@ -20,10 +20,11 @@ export default function RootLayout({
       </head>
       <body>
         <MantineProvider>
-          <Header />
-          <main className="mx-auto mb-20 mt-4 max-w-sm md:max-w-md xl:max-w-xl">
-            {children}
-          </main>
+          <div className="mx-auto max-w-md px-4 lg:max-w-lg xl:max-w-xl">
+            <Header />
+            <Space h="md" />
+            <main>{children}</main>
+          </div>
         </MantineProvider>
       </body>
     </html>
