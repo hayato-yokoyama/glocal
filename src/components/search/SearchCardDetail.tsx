@@ -1,8 +1,8 @@
 "use client";
 
 import SearchCardDetailReviews from "@/components/search/SearchCardDetailReviews";
-import Image from "next/image";
-import { useState } from "react";
+import { Anchor, Badge, Button, Collapse } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 
 type SearchCardDetailProps = {
   mapUrl: string;
@@ -39,62 +39,60 @@ const SearchCardDetail = ({
   phoneNumber,
   webSiteUrl,
 }: SearchCardDetailProps) => {
-  const [isOpenedDetail, setIsOpenedDetail] = useState(false);
-  if (!isOpenedDetail) {
-    return <button onClick={() => setIsOpenedDetail(true)}>もっと見る</button>;
-  }
+  const [opened, { toggle, open }] = useDisclosure(false);
+
   return (
-    <div className="flex flex-col gap-y-3">
-      <hr />
-      <ul className="flex flex-col gap-y-2">
-        <li className="flex gap-x-3">
-          <Image src="/gmap.svg" alt="" width={20} height={20} />
-          <a
-            href={mapUrl}
-            className="underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            GoogleMapで見る
-          </a>
-        </li>
-        <li className="flex gap-x-3">
-          <Image src="/world.svg" alt="" width={20} height={20} />
-          <a
-            href={webSiteUrl}
-            className="line-clamp-1 underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {webSiteUrl}
-          </a>
-        </li>
-        <li className="flex gap-x-3">
-          <Image src="/clock.svg" alt="" width={20} height={20} />
-          <span className="text-red-600">営業時間外</span>
-        </li>
-        <li className="flex gap-x-3">
-          <Image src="/tel.svg" alt="" width={20} height={20} />
-          <a href={`tel:${phoneNumber}`} className="line-clamp-1 underline">
-            {phoneNumber}
-          </a>
-        </li>
-      </ul>
-      <hr />
-      <ul className="flex flex-col gap-y-4 text-xs font-light">
-        {REVIEW.map((review, index) => {
-          return (
-            <li key={index}>
-              <SearchCardDetailReviews
-                comment={review.comment}
-                reviewerIconPath={review.reviewerIconPath}
-                reviewerName={review.reviewerName}
-                star={review.star}
-              />
+    <div>
+      {!opened && (
+        <div className="text-center">
+          <Button variant="transparent" onClick={open}>
+            もっと見る
+          </Button>
+        </div>
+      )}
+      <Collapse in={opened}>
+        <div className="flex flex-col gap-y-3">
+          <ul className="m-0 flex flex-col gap-y-2 p-0">
+            <li className="flex gap-x-3">
+              <Anchor href={mapUrl} target="_blank" rel="noopener noreferrer">
+                GoogleMapで見る
+              </Anchor>
             </li>
-          );
-        })}
-      </ul>
+            <li className="flex gap-x-3">
+              <Anchor
+                href={webSiteUrl}
+                lineClamp={1}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                ウェブサイトを見る
+              </Anchor>
+            </li>
+            <li className="flex gap-x-3">
+              <Badge variant="light" color="red">
+                営業時間外
+              </Badge>
+            </li>
+            <li className="flex gap-x-3">
+              <Anchor href={`tel:${phoneNumber}`}>電話をかける</Anchor>
+            </li>
+          </ul>
+          <ul className="m-0 flex list-none flex-col gap-y-4 p-0 text-xs font-light">
+            {REVIEW.map((review, index) => {
+              return (
+                <li key={index}>
+                  <SearchCardDetailReviews
+                    comment={review.comment}
+                    reviewerIconPath={review.reviewerIconPath}
+                    reviewerName={review.reviewerName}
+                    star={review.star}
+                  />
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </Collapse>
     </div>
   );
 };

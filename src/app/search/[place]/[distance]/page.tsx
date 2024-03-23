@@ -6,7 +6,7 @@ import {
   PlaceResult,
   PlaceSearchResponse,
 } from "@/types/googleMapApi";
-import Image from "next/image";
+import { Affix, Button, Text, Title } from "@mantine/core";
 import Link from "next/link";
 
 /** 地名や施設名から緯度経度取得する（ジオコーディングする） */
@@ -125,17 +125,12 @@ const SearchPage = async ({
 
   if (places.length === 0) {
     return (
-      <div className="relative">
-        <div className="flex h-[calc(100vh_-_90px)] flex-col items-center justify-center font-bold">
-          <p>検索条件にヒットする場所がありませんでした🙇‍♂️</p>
-        </div>
-        <Link
-          href="/"
-          className="absolute bottom-2 flex w-full items-center justify-center gap-x-2 rounded-full bg-primary-400 p-4 font-bold"
-        >
-          <Image src="/search.svg" width={20} height={20} alt="" />
-          検索画面に戻る
-        </Link>
+      <div className="flex flex-col gap-y-4">
+        <Title order={2}>Sorry</Title>
+        <Text>検索条件にヒットする場所がありませんでした</Text>
+        <Button variant="filled" component={Link} href="/">
+          条件を選び直す
+        </Button>
       </div>
     );
   }
@@ -153,13 +148,12 @@ const SearchPage = async ({
 
   return (
     <div className="flex flex-col gap-y-4">
-      <p>検索件数 {sortedPlaces.length}件</p>
-      <p>
+      <span>
         <span className="mr-0.5 text-lg font-bold">
           {formattedSearchParams.place}
         </span>
         での検索結果
-      </p>
+      </span>
       {sortedPlaces.map((place) => {
         return (
           <SearchCard
@@ -172,6 +166,15 @@ const SearchPage = async ({
           />
         );
       })}
+      <Affix
+        position={{ bottom: 0 }}
+        className="flex h-16 w-full items-center justify-center gap-x-4 bg-slate-200"
+      >
+        <span>検索件数 {sortedPlaces.length}件</span>
+        <Button variant="filled" component={Link} href="/">
+          条件を選び直す
+        </Button>
+      </Affix>
     </div>
   );
 };

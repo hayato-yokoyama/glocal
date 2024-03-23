@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { Avatar, Text } from "@mantine/core";
 
 type SearchCardDetailReviewsProps = {
   comment: string;
@@ -15,18 +15,18 @@ const SearchCardDetailReviews = ({
 }: SearchCardDetailReviewsProps) => {
   return (
     <div className="flex flex-col gap-y-1">
-      <div className="flex gap-x-2">
-        <Image src={reviewerIconPath} alt="" width={16} height={16} />
+      <div className="flex items-center gap-x-2">
+        <Avatar src={reviewerIconPath} alt="" size="sm" />
         <span>{reviewerName}</span>
       </div>
       <div className="flex gap-x-2">
         <span>1週間前</span>
         <span>
-          <span className="text-yellow-500">★</span>
+          <span>★</span>
           {star}
         </span>
       </div>
-      <p className="text-sm">{comment}</p>
+      <Text size="sm">{comment}</Text>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { Button, Text, Title } from "@mantine/core";
 import Link from "next/link";
 
 type SearchNotFoundPlaceProps = {
@@ -7,35 +7,16 @@ type SearchNotFoundPlaceProps = {
 
 const SearchNotFoundPlace = ({ place }: SearchNotFoundPlaceProps) => {
   return (
-    <div className="relative">
-      <div className="mx-4 flex h-[calc(100vh_-_90px)] flex-col justify-center gap-y-4">
-        <p className="break-keep [overflow-wrap:anywhere]">
-          <span className="mr-2 font-bold">{place}</span>
-          <wbr />
-          に一致する場所が見つかりませんでした🙇‍♂️
-        </p>
-        <div>
-          <p className="break-keep [overflow-wrap:anywhere]">
-            場所は、
-            <wbr />
-            地名ではなく
-            <wbr />
-            駅名や店舗名などの
-            <wbr />
-            施設名を入れると
-            <wbr />
-            ヒットしやすくなります。
-          </p>
-          <p className="mt-2">例：新宿 → 新宿駅</p>
-        </div>
-      </div>
-      <Link
-        href="/"
-        className="absolute bottom-2 flex w-full items-center justify-center gap-x-2 rounded-full bg-primary-400 p-4 font-bold"
-      >
-        <Image src="/search.svg" width={20} height={20} alt="" />
-        検索画面に戻る
-      </Link>
+    <div className="flex flex-col gap-y-4">
+      <Title order={2}>Sorry</Title>
+      <Text>{place}に一致する場所が見つかりませんでした</Text>
+      <Text>
+        地名ではなく駅名や店舗名などの施設名を入れるとヒットしやすくなります。
+      </Text>
+      <span>例：新宿 → 新宿駅</span>
+      <Button variant="filled" component={Link} href="/">
+        条件を選び直す
+      </Button>
     </div>
   );
 };
