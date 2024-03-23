@@ -6,7 +6,8 @@ import {
   PlaceResult,
   PlaceSearchResponse,
 } from "@/types/googleMapApi";
-import { Affix, Button, Text, Title } from "@mantine/core";
+import { Affix, Button, Text } from "@mantine/core";
+import { IconSearch } from "@tabler/icons-react";
 import Link from "next/link";
 
 /** 地名や施設名から緯度経度取得する（ジオコーディングする） */
@@ -47,10 +48,7 @@ const searchPlaces = async (
         searchParams.keyword
       }&genre=${searchParams.genre}&isOpen=${searchParams.isOpen}&${
         token && `token=${token}`
-      }`,
-      {
-        cache: "no-store",
-      }
+      }`
     );
     const data: PlaceSearchResponse = await res.json();
     return data;
@@ -127,11 +125,15 @@ const SearchPage = async ({
     return (
       <div className="flex h-64 items-center justify-center">
         <div className="flex flex-col gap-y-4">
-          <Title order={2}>Sorry</Title>
           <Text>
             検索条件に該当する結果がありませんでした。別の条件で再度お試しください。
           </Text>
-          <Button variant="filled" component={Link} href="/">
+          <Button
+            variant="filled"
+            component={Link}
+            href="/"
+            leftSection={<IconSearch size={14} />}
+          >
             条件を選び直す
           </Button>
         </div>
@@ -152,12 +154,6 @@ const SearchPage = async ({
 
   return (
     <div className="mb-20 flex flex-col gap-y-4">
-      <span>
-        <span className="mr-0.5 text-lg font-bold">
-          {formattedSearchParams.place}
-        </span>
-        での検索結果
-      </span>
       {sortedPlaces.map((place) => {
         return (
           <SearchCard
@@ -174,8 +170,12 @@ const SearchPage = async ({
         position={{ bottom: 0 }}
         className="flex h-16 w-full items-center justify-center gap-x-4 bg-slate-200"
       >
-        <span>検索件数 {sortedPlaces.length}件</span>
-        <Button variant="filled" component={Link} href="/">
+        <Button
+          variant="filled"
+          component={Link}
+          href="/"
+          leftSection={<IconSearch size={14} />}
+        >
           条件を選び直す
         </Button>
       </Affix>

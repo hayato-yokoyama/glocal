@@ -19,7 +19,11 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body>
-        <MantineProvider>
+        <MantineProvider
+          theme={{
+            primaryColor: "cyan",
+          }}
+        >
           <div className="mx-auto max-w-md px-4 lg:max-w-lg xl:max-w-xl">
             <Header />
             <Space h="md" />
