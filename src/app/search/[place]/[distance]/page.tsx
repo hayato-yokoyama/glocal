@@ -125,12 +125,16 @@ const SearchPage = async ({
 
   if (places.length === 0) {
     return (
-      <div className="flex flex-col gap-y-4">
-        <Title order={2}>Sorry</Title>
-        <Text>検索条件にヒットする場所がありませんでした</Text>
-        <Button variant="filled" component={Link} href="/">
-          条件を選び直す
-        </Button>
+      <div className="flex h-64 items-center justify-center">
+        <div className="flex flex-col gap-y-4">
+          <Title order={2}>Sorry</Title>
+          <Text>
+            検索条件に該当する結果がありませんでした。別の条件で再度お試しください。
+          </Text>
+          <Button variant="filled" component={Link} href="/">
+            条件を選び直す
+          </Button>
+        </div>
       </div>
     );
   }
