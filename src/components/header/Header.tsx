@@ -1,13 +1,16 @@
 import "../../app/globals.css";
+import { Anchor, Title } from "@mantine/core";
 import Link from "next/link";
 
 const Header = () => {
   return (
-    <header>
-      <div className="mx-auto max-w-sm md:max-w-md xl:max-w-xl">
-        <h1>
-          <Link href="/">Glocal</Link>
-        </h1>
+    <header className="bg-slate-200">
+      <div className="mx-auto flex h-16 max-w-sm items-center justify-start md:max-w-md xl:max-w-xl">
+        <Title order={1}>
+          <Anchor component={Link} href="/" size="xl" underline="never">
+            Glocal
+          </Anchor>
+        </Title>
       </div>
     </header>
   );
