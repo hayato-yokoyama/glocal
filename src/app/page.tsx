@@ -114,7 +114,8 @@ export default function Home() {
       <Fieldset className="flex flex-col gap-y-2" variant="unstyled">
         <TextInput
           size="md"
-          label="場所"
+          withAsterisk
+          label={<span className="font-bold">場所</span>}
           placeholder="新宿駅"
           {...form.getInputProps("place")}
         />
@@ -145,15 +146,15 @@ export default function Home() {
       <Fieldset variant="unstyled">
         <TextInput
           size="md"
-          label="キーワード"
+          label={<span className="font-bold">キーワード</span>}
           placeholder="オムライス"
           {...form.getInputProps("keyword")}
         />
       </Fieldset>
       {/* TODO: ジャンルで検索できるようにする */}
       <Fieldset variant="unstyled">
-        <legend>ジャンル</legend>
-        <Space h={4} />
+        <legend className="font-bold">ジャンル</legend>
+        <Space h={8} />
         <div className="flex flex-wrap gap-2">
           {GENRE_LIST.map((genre, index) => {
             return (
