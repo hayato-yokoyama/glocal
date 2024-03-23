@@ -6,6 +6,7 @@ import {
   PlaceResult,
   PlaceSearchResponse,
 } from "@/types/googleMapApi";
+import { Affix, Button } from "@mantine/core";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -159,7 +160,6 @@ const SearchPage = async ({
         </span>
         での検索結果
       </span>
-      <span>検索件数 {sortedPlaces.length}件</span>
       {sortedPlaces.map((place) => {
         return (
           <SearchCard
@@ -172,6 +172,15 @@ const SearchPage = async ({
           />
         );
       })}
+      <Affix
+        position={{ bottom: 0 }}
+        className="flex h-16 w-full items-center justify-center gap-x-4 bg-slate-200"
+      >
+        <span>検索件数 {sortedPlaces.length}件</span>
+        <Button variant="filled" component={Link} href="/">
+          条件を選び直す
+        </Button>
+      </Affix>
     </div>
   );
 };
