@@ -1,11 +1,17 @@
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const placeId = searchParams.get("placeId");
   if (process.env.NODE_ENV === "development") {
     return NextResponse.json(MOCK_DATA);
   }
+
+  const { searchParams } = new URL(request.url);
+  const placeId = searchParams.get("placeId");
+
+  const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&language=ja&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+  const response = await fetch(url);
+  const data = await response.json();
+  return NextResponse.json(data);
 }
 
 const MOCK_DATA = {
@@ -262,7 +268,7 @@ const MOCK_DATA = {
     user_ratings_total: 939,
     utc_offset: 600,
     vicinity: "48 Pirrama Road, Pyrmont",
-    website: "http://google.com/",
+    website: "https://www.shopping-sumitomo-rd.com/tokyo_garden_theater/",
   },
   status: "OK",
 };

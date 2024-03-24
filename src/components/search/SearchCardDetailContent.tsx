@@ -56,7 +56,7 @@ const SearchCardDetailContent = async ({ placeId }: { placeId: string }) => {
             rel="noopener noreferrer"
             c="black"
             underline="always"
-            className="flex-1"
+            className="flex-1 whitespace-nowrap"
           >
             {detail.result.website}
           </Anchor>
