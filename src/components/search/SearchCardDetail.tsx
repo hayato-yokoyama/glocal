@@ -1,14 +1,15 @@
 "use client";
 
+import SearchCardDetailContent from "@/components/search/SearchCardDetailContent";
 import { Button, Collapse, Loader } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Suspense } from "react";
 
 type SearchCardDetailProps = {
-  children: React.ReactNode;
+  placeId: string;
 };
 
-const SearchCardDetail = ({ children }: SearchCardDetailProps) => {
+const SearchCardDetail = ({ placeId }: SearchCardDetailProps) => {
   const [opened, { open }] = useDisclosure(false);
 
   return (
@@ -21,15 +22,18 @@ const SearchCardDetail = ({ children }: SearchCardDetailProps) => {
         </div>
       )}
       <Collapse in={opened}>
-        <Suspense
-          fallback={
-            <div className="text-center">
-              <Loader size="sm" />
-            </div>
-          }
-        >
-          {children}
-        </Suspense>
+        {opened && (
+          <Suspense
+            fallback={
+              <div className="text-center">
+                <Loader size="sm" />
+              </div>
+            }
+          >
+            {/* @ts-expect-error Server Component */}
+            <SearchCardDetailContent placeId={placeId} />
+          </Suspense>
+        )}
       </Collapse>
     </div>
   );

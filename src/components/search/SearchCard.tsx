@@ -1,5 +1,4 @@
 import SearchCardDetail from "@/components/search/SearchCardDetail";
-import SearchCardDetailContent from "@/components/search/SearchCardDetailContent";
 import { Card, Group, Image, Title } from "@mantine/core";
 import { IconStarFilled } from "@tabler/icons-react";
 import NextImage from "next/image";
@@ -57,10 +56,7 @@ const SearchCard = ({
         <Title order={2}>{place}</Title>
       </div>
 
-      <SearchCardDetail>
-        {/* @ts-expect-error Server Component */}
-        <SearchCardDetailContent placeId={placeId} />
-      </SearchCardDetail>
+      <SearchCardDetail placeId={placeId} />
     </Card>
   );
 };
