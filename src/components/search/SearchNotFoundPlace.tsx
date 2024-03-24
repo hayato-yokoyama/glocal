@@ -17,7 +17,6 @@ const SearchNotFoundPlace = ({ place }: SearchNotFoundPlaceProps) => {
         </Text>
         <span>例：新宿 → 新宿駅</span>
         <Button
-          size="lg"
           variant="filled"
           component={Link}
           href="/"
