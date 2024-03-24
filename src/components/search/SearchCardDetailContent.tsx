@@ -23,7 +23,7 @@ const SearchCardDetailContent = async ({ placeId }: { placeId: string }) => {
       <Divider />
       <ul className="m-0 flex list-none flex-col gap-y-2 p-0">
         <li className="flex items-center gap-x-3">
-          <IconClockFilled size={16} className="fill-primary" />
+          <IconClockFilled size={20} className="fill-primary" />
           {detail.result.opening_hours.open_now ? (
             <Badge variant="light" color="teal" size="md">
               営業中
@@ -35,19 +35,20 @@ const SearchCardDetailContent = async ({ placeId }: { placeId: string }) => {
           )}
         </li>
         <li className="flex items-center gap-x-3">
-          <IconMapPinFilled size={16} className="fill-primary" />
+          <IconMapPinFilled size={20} className="fill-primary" />
           <Anchor
             href={detail.result.url}
             target="_blank"
             rel="noopener noreferrer"
             c="black"
             underline="always"
+            className="flex-1"
           >
             Google Mapで見る
           </Anchor>
         </li>
         <li className="flex items-center gap-x-3">
-          <IconWorld size={16} className="text-primary" />
+          <IconWorld size={20} className="text-primary" />
           <Anchor
             href={detail.result.website}
             lineClamp={1}
@@ -55,16 +56,18 @@ const SearchCardDetailContent = async ({ placeId }: { placeId: string }) => {
             rel="noopener noreferrer"
             c="black"
             underline="always"
+            className="flex-1"
           >
             {detail.result.website}
           </Anchor>
         </li>
         <li className="flex items-center gap-x-3">
-          <IconPhoneFilled size={16} className="fill-primary" />
+          <IconPhoneFilled size={20} className="fill-primary" />
           <Anchor
             href={`tel:${detail.result.formatted_phone_number}`}
             c="black"
             underline="always"
+            className="flex-1"
           >
             {detail.result.formatted_phone_number}
           </Anchor>
