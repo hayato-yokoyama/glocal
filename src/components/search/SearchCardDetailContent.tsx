@@ -24,9 +24,15 @@ const SearchCardDetailContent = async ({ placeId }: { placeId: string }) => {
       <ul className="m-0 flex list-none flex-col gap-y-2 p-0">
         <li className="flex items-center gap-x-3">
           <IconClockFilled size={16} className="fill-primary" />
-          <Badge variant="light" color="red">
-            営業時間外
-          </Badge>
+          {detail.result.opening_hours.open_now ? (
+            <Badge variant="light" color="teal" size="md">
+              営業中
+            </Badge>
+          ) : (
+            <Badge variant="light" color="red" size="md">
+              営業時間外
+            </Badge>
+          )}
         </li>
         <li className="flex items-center gap-x-3">
           <IconMapPinFilled size={16} className="fill-primary" />
