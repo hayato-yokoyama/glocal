@@ -163,6 +163,7 @@ const SearchPage = async ({
             placeTypes={place.placeTypes}
             rating={place.rating ? place.rating : 0}
             ratingTotal={place.ratingsTotal ? place.ratingsTotal : 0}
+            placeId={place.placeId}
           />
         );
       })}

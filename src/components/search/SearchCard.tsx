@@ -1,4 +1,5 @@
 import SearchCardDetail from "@/components/search/SearchCardDetail";
+import SearchCardDetailContent from "@/components/search/SearchCardDetailContent";
 import { Card, Group, Image, Title } from "@mantine/core";
 import { IconStarFilled } from "@tabler/icons-react";
 import NextImage from "next/image";
@@ -11,6 +12,7 @@ type SearchCardProps = {
     width: number;
   };
   place: string;
+  placeId: string;
   placeTypes: string[];
   rating: number;
   ratingTotal: number;
@@ -22,7 +24,13 @@ const getPhotoUrl = (photoReference: string) => {
   return url;
 };
 
-const SearchCard = ({ photo, place, rating, ratingTotal }: SearchCardProps) => {
+const SearchCard = ({
+  photo,
+  place,
+  rating,
+  ratingTotal,
+  placeId,
+}: SearchCardProps) => {
   return (
     <Card padding="xs" withBorder className="flex flex-col gap-y-3">
       <div className="relative aspect-video">
@@ -49,11 +57,10 @@ const SearchCard = ({ photo, place, rating, ratingTotal }: SearchCardProps) => {
         <Title order={2}>{place}</Title>
       </div>
 
-      <SearchCardDetail
-        mapUrl="/"
-        phoneNumber="00011112222"
-        webSiteUrl="https://example.com/"
-      />
+      <SearchCardDetail>
+        {/* @ts-expect-error Server Component */}
+        <SearchCardDetailContent placeId={placeId} />
+      </SearchCardDetail>
     </Card>
   );
 };
