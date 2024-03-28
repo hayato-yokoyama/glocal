@@ -39,9 +39,10 @@ const SearchCard = ({
         <Image
           component={NextImage}
           fill
-          src={null}
+          sizes="(max-width: 768px) 100vw"
+          src={getPhotoUrl(photo?.photo_reference)}
           alt=""
-          fallbackSrc="/mt.jpeg"
+          fallbackSrc="/no-image.jpg"
           radius="sm"
         />
       </div>
