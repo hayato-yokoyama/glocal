@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-  if (process.env.NODE_ENV === "development") {
-    return NextResponse.json(MOCK_DATA);
-  }
+  // if (process.env.NODE_ENV === "development") {
+  //   return NextResponse.json(MOCK_DATA);
+  // }
 
   const { searchParams } = new URL(request.url);
   const lat = searchParams.get("lat");

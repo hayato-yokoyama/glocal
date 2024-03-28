@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-  if (process.env.NODE_ENV === "development") {
-    const { searchParams } = new URL(request.url);
-    const address = searchParams.get("address");
-    if (address === "0") {
-      return NextResponse.json(NO_RESULT_MOCK_DATA);
-    }
-    return NextResponse.json(MOCK_DATA);
-  }
+  // if (process.env.NODE_ENV === "development") {
+  //   const { searchParams } = new URL(request.url);
+  //   const address = searchParams.get("address");
+  //   if (address === "0") {
+  //     return NextResponse.json(NO_RESULT_MOCK_DATA);
+  //   }
+  //   return NextResponse.json(MOCK_DATA);
+  // }
 
   const { searchParams } = new URL(request.url);
   const address = searchParams.get("address");

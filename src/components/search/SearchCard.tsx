@@ -18,7 +18,10 @@ type SearchCardProps = {
 };
 
 /** photoReferenceから検索結果の写真を取得する */
-const getPhotoUrl = (photoReference: string) => {
+const getPhotoUrl = (photoReference?: string) => {
+  if (photoReference === undefined) {
+    return null;
+  }
   const url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=560&photoreference=${photoReference}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
   return url;
 };
@@ -36,9 +39,10 @@ const SearchCard = ({
         <Image
           component={NextImage}
           fill
-          src={null}
+          sizes="(max-width: 768px) 100vw"
+          src={getPhotoUrl(photo?.photo_reference)}
           alt=""
-          fallbackSrc="/mt.jpeg"
+          fallbackSrc="/no-image.jpg"
           radius="sm"
         />
       </div>
