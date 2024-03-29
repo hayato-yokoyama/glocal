@@ -69,7 +69,7 @@ const getNearBySearchUrl = (
   if (genre) {
     url.searchParams.append("type", genre);
   }
-  if (isOpen) {
+  if (isOpen === "true") {
     url.searchParams.append("opennow", "true");
   }
   return url;

@@ -43,13 +43,23 @@ const searchPlaces = async (
   searchParams: SearchParams
 ) => {
   const fetchPlaces = async (token?: string) => {
-    const res = await fetch(
-      `http://localhost:3000/api/searchPlace?lat=${lat}&lng=${lng}&distance=${searchParams.distance.toString()}&keyword=${
-        searchParams.keyword
-      }&genre=${searchParams.genre}&isOpen=${searchParams.isOpen}&${
-        token && `token=${token}`
-      }`
+    const url = new URL(
+      `http://localhost:3000/api/searchPlace?lat=${lat}&lng=${lng}&distance=${searchParams.distance.toString()}`
     );
+    if (searchParams.keyword) {
+      url.searchParams.append("keyword", searchParams.keyword);
+    }
+    if (searchParams.genre) {
+      url.searchParams.append("genre", searchParams.genre);
+    }
+    if (searchParams.isOpen) {
+      url.searchParams.append("isOpen", "true");
+    }
+    if (token) {
+      url.searchParams.append("token", token);
+    }
+
+    const res = await fetch(url);
     const data: PlaceSearchResponse = await res.json();
     return data;
   };
