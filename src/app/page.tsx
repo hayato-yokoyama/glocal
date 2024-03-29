@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  Button,
-  Checkbox,
-  Fieldset,
-  Radio,
-  Select,
-  Space,
-  TextInput,
-} from "@mantine/core";
+import { Button, Checkbox, Fieldset, Select, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
@@ -152,7 +144,7 @@ export default function Home() {
         />
       </Fieldset>
       {/* TODO: ジャンルで検索できるようにする */}
-      <Fieldset variant="unstyled">
+      {/* <Fieldset variant="unstyled">
         <legend className="font-bold">ジャンル</legend>
         <Space h={8} />
         <div className="flex flex-wrap gap-2">
@@ -162,8 +154,12 @@ export default function Home() {
             );
           })}
         </div>
-      </Fieldset>
-      <Checkbox label="営業中のスポットのみを表示" className="mx-auto" />
+      </Fieldset> */}
+      <Checkbox
+        label="営業中のスポットのみを表示"
+        className="mx-auto"
+        {...form.getInputProps("isOpen")}
+      />
       <Button
         type="submit"
         variant="filled"
