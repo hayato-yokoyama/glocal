@@ -1,8 +1,8 @@
-import { getLatLng } from "@/components/libs/getLatLng";
-import { sortedSearchPlaces } from "@/components/libs/searchPlaces";
 import SearchCard from "@/components/search/SearchCard";
 import SearchNotFound from "@/components/search/SearchNotFound";
 import SearchNotFoundPlace from "@/components/search/SearchNotFoundPlace";
+import { getLatLng } from "@/libs/getLatLng";
+import { sortedSearchPlaces } from "@/libs/searchPlaces";
 import { SearchParams } from "@/types/common";
 import { Affix, Button } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
