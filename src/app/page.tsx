@@ -99,10 +99,7 @@ export default function Home() {
   };
 
   return (
-    <form
-      onSubmit={form.onSubmit((values) => handleClickSubmit(values))}
-      className="flex flex-col gap-y-8"
-    >
+    <form onSubmit={form.onSubmit((values) => handleClickSubmit(values))} className="flex flex-col gap-y-8">
       <Fieldset className="flex flex-col gap-y-2" variant="unstyled">
         <TextInput
           size="md"
@@ -113,12 +110,7 @@ export default function Home() {
         />
 
         <div className="ml-auto flex items-center gap-x-2">
-          <Button
-            type="button"
-            onClick={() => form.setValues({ place: "現在地" })}
-            variant="light"
-            color="cyan"
-          >
+          <Button type="button" onClick={() => form.setValues({ place: "現在地" })} variant="light" color="cyan">
             現在地検索
           </Button>
           <Select
@@ -155,16 +147,8 @@ export default function Home() {
           })}
         </div>
       </Fieldset> */}
-      <Checkbox
-        label="営業中のスポットのみを表示"
-        className="mx-auto"
-        {...form.getInputProps("isOpen")}
-      />
-      <Button
-        type="submit"
-        variant="filled"
-        leftSection={<IconSearch size={14} />}
-      >
+      <Checkbox label="営業中のスポットのみを表示" className="mx-auto" {...form.getInputProps("isOpen")} />
+      <Button type="submit" variant="filled" leftSection={<IconSearch size={14} />}>
         この条件で探す
       </Button>
     </form>

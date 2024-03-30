@@ -2,11 +2,7 @@ import { SearchParams } from "@/types/common";
 import { PlaceResult, PlaceSearchResponse } from "@/types/googleMapApi";
 
 /** 指定条件から場所を検索する */
-const searchPlaces = async (
-  lat: number,
-  lng: number,
-  searchParams: SearchParams
-) => {
+const searchPlaces = async (lat: number, lng: number, searchParams: SearchParams) => {
   const fetchPlaces = async (token?: string) => {
     const url = new URL(
       `http://localhost:3000/api/searchPlace?lat=${lat}&lng=${lng}&distance=${searchParams.distance.toString()}`
@@ -66,11 +62,7 @@ const searchPlaces = async (
 };
 
 /** 指定条件から場所を検索し、レビュー数でソートする */
-export const sortedSearchPlaces = async (
-  lat: number,
-  lng: number,
-  searchParams: SearchParams
-) => {
+export const sortedSearchPlaces = async (lat: number, lng: number, searchParams: SearchParams) => {
   /** 取得した場所 */
   const places = await searchPlaces(lat, lng, searchParams);
 

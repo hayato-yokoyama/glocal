@@ -6,13 +6,7 @@ const Header = () => {
   return (
     <header className="flex h-16 items-center justify-start">
       <Title order={1}>
-        <Anchor
-          component={Link}
-          href="/"
-          variant="gradient"
-          gradient={{ from: "cyan", to: "pink" }}
-          inherit
-        >
+        <Anchor component={Link} href="/" variant="gradient" gradient={{ from: "cyan", to: "pink" }} inherit>
           Glocal
         </Anchor>
       </Title>

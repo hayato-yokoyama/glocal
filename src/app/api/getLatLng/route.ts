@@ -28,13 +28,7 @@ const MOCK_DATA = {
         {
           long_name: "新宿駅",
           short_name: "新宿駅",
-          types: [
-            "establishment",
-            "point_of_interest",
-            "subway_station",
-            "train_station",
-            "transit_station",
-          ],
+          types: ["establishment", "point_of_interest", "subway_station", "train_station", "transit_station"],
         },
         {
           long_name: "１",
@@ -77,8 +71,7 @@ const MOCK_DATA = {
           types: ["postal_code"],
         },
       ],
-      formatted_address:
-        "日本、〒160-0022 東京都新宿区新宿３丁目３８−１ 新宿駅",
+      formatted_address: "日本、〒160-0022 東京都新宿区新宿３丁目３８−１ 新宿駅",
       geometry: {
         location: {
           lat: 35.6896067,
@@ -102,13 +95,7 @@ const MOCK_DATA = {
         compound_code: "MPQ2+R6 日本、東京都新宿区",
         global_code: "8Q7XMPQ2+R6",
       },
-      types: [
-        "establishment",
-        "point_of_interest",
-        "subway_station",
-        "train_station",
-        "transit_station",
-      ],
+      types: ["establishment", "point_of_interest", "subway_station", "train_station", "transit_station"],
     },
   ],
   status: "OK",

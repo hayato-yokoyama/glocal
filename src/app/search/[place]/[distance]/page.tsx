@@ -19,9 +19,7 @@ const SearchPage = async ({
     distance: params.distance,
     genre: searchParams.genre ? decodeURIComponent(searchParams.genre) : "",
     isOpen: searchParams.isOpen ? true : false,
-    keyword: searchParams.keyword
-      ? decodeURIComponent(searchParams.keyword)
-      : "",
+    keyword: searchParams.keyword ? decodeURIComponent(searchParams.keyword) : "",
     place: decodeURIComponent(params.place),
   };
 
@@ -33,11 +31,7 @@ const SearchPage = async ({
   }
 
   /** 取得した場所 */
-  const places = await sortedSearchPlaces(
-    latLng.lat,
-    latLng.lng,
-    formattedSearchParams
-  );
+  const places = await sortedSearchPlaces(latLng.lat, latLng.lng, formattedSearchParams);
 
   if (places.length === 0) {
     return <SearchNotFound />;
@@ -58,16 +52,8 @@ const SearchPage = async ({
           />
         );
       })}
-      <Affix
-        position={{ bottom: 0 }}
-        className="flex h-16 w-full items-center justify-center gap-x-4 bg-slate-200"
-      >
-        <Button
-          variant="filled"
-          component={Link}
-          href="/"
-          leftSection={<IconSearch size={14} />}
-        >
+      <Affix position={{ bottom: 0 }} className="flex h-16 w-full items-center justify-center gap-x-4 bg-slate-200">
+        <Button variant="filled" component={Link} href="/" leftSection={<IconSearch size={14} />}>
           条件を選び直す
         </Button>
       </Affix>

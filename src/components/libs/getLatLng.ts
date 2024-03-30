@@ -3,9 +3,7 @@ import { GeocodingResponse } from "@/types/googleMapApi";
 /** 地名や施設名から緯度経度取得する（ジオコーディングする） */
 export const getLatLng = async (address: string) => {
   try {
-    const res = await fetch(
-      `http://localhost:3000/api/getLatLng?address=${address}`
-    );
+    const res = await fetch(`http://localhost:3000/api/getLatLng?address=${address}`);
 
     if (!res.ok) {
       throw new Error(`Failed to fetch geocoding data. Status: ${res.status}`);

@@ -26,13 +26,7 @@ const getPhotoUrl = (photoReference?: string) => {
   return url;
 };
 
-const SearchCard = ({
-  photo,
-  place,
-  rating,
-  ratingTotal,
-  placeId,
-}: SearchCardProps) => {
+const SearchCard = ({ photo, place, rating, ratingTotal, placeId }: SearchCardProps) => {
   return (
     <Card padding="xs" withBorder className="flex flex-col gap-y-3">
       <div className="relative aspect-video">
