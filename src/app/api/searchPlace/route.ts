@@ -47,9 +47,7 @@ const getNearBySearchUrl = (
   isOpen: string | null,
   token: string | null
 ) => {
-  const url = new URL(
-    "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
-  );
+  const url = new URL("https://maps.googleapis.com/maps/api/place/nearbysearch/json");
   // Required parameters
   url.searchParams.append("key", key);
   url.searchParams.append("location", `${lat},${lng}`);
@@ -98,8 +96,7 @@ const MOCK_DATA = {
       },
       icon: "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/shopping-71.png",
       icon_background_color: "#4B96F3",
-      icon_mask_base_uri:
-        "https://maps.gstatic.com/mapfiles/place_api/icons/v2/convenience_pinlet",
+      icon_mask_base_uri: "https://maps.gstatic.com/mapfiles/place_api/icons/v2/convenience_pinlet",
       name: "ナチュラルローソン 新宿駅西店",
       opening_hours: {
         open_now: true,
@@ -107,9 +104,7 @@ const MOCK_DATA = {
       photos: [
         {
           height: 4032,
-          html_attributions: [
-            '<a href="https://maps.google.com/maps/contrib/116889022560112045541">T N</a>',
-          ],
+          html_attributions: ['<a href="https://maps.google.com/maps/contrib/116889022560112045541">T N</a>'],
           photo_reference:
             "ATplDJYqfHsvROVLi5gAp7X57Ipxbnq4K6a68Fx_WyUdkf_VVy_DnkSd-SuJCzxVAOuWb739IJNM0lt1uDTrSbZOw7fN7R9zCy9sxjYEAFs-O5GqLNnu-Wure9mkjchGQlB0axRPEL8Kg8l1WdrTOiZdj1YQWvDMTo7zH_w1AEEzjfdobhRP",
           width: 3024,
@@ -123,15 +118,7 @@ const MOCK_DATA = {
       rating: 3.7,
       reference: "ChIJsVGNUNGMGGARje-B0m2yMLI",
       scope: "GOOGLE",
-      types: [
-        "convenience_store",
-        "atm",
-        "finance",
-        "point_of_interest",
-        "store",
-        "food",
-        "establishment",
-      ],
+      types: ["convenience_store", "atm", "finance", "point_of_interest", "store", "food", "establishment"],
       user_ratings_total: 47,
       vicinity: "新宿区西新宿１丁目１３−１２ 西新宿昭和ビル",
     },
@@ -155,8 +142,7 @@ const MOCK_DATA = {
       },
       icon: "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
       icon_background_color: "#7B9EB0",
-      icon_mask_base_uri:
-        "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      icon_mask_base_uri: "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
       name: "新宿エルタワーサンスカイルーム",
       opening_hours: {
         open_now: true,
@@ -204,8 +190,7 @@ const MOCK_DATA = {
       },
       icon: "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
       icon_background_color: "#FF9E67",
-      icon_mask_base_uri:
-        "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+      icon_mask_base_uri: "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
       name: "鳥良商店 新宿区役所前店",
       opening_hours: {
         open_now: true,
@@ -230,14 +215,7 @@ const MOCK_DATA = {
       rating: 3.7,
       reference: "ChIJ4WyHgdmMGGAR9GhJdXAJrQQ",
       scope: "GOOGLE",
-      types: [
-        "meal_delivery",
-        "meal_takeaway",
-        "restaurant",
-        "point_of_interest",
-        "food",
-        "establishment",
-      ],
+      types: ["meal_delivery", "meal_takeaway", "restaurant", "point_of_interest", "food", "establishment"],
       user_ratings_total: 453,
       vicinity: "新宿区歌舞伎町１丁目２−２ 歌舞伎町ビル 1F エイチ･エフ",
     },
@@ -261,8 +239,7 @@ const MOCK_DATA = {
       },
       icon: "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
       icon_background_color: "#7B9EB0",
-      icon_mask_base_uri:
-        "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      icon_mask_base_uri: "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
       name: "CharmeR 新宿店",
       opening_hours: {
         open_now: true,
@@ -270,9 +247,7 @@ const MOCK_DATA = {
       photos: [
         {
           height: 4032,
-          html_attributions: [
-            '<a href="https://maps.google.com/maps/contrib/107644533216024469827">みさみさ</a>',
-          ],
+          html_attributions: ['<a href="https://maps.google.com/maps/contrib/107644533216024469827">みさみさ</a>'],
           photo_reference:
             "ATplDJYN3WXDGQwmMQzp9OK_QBPulJ9Z4ruDAs5UlhQlZ43pwaxDdLELl2uugrwRDnAE4vlG7vDzTWhkOp4XdIzokEJLSe-VSDnlCmjEru3HJSqKSDfVULcgel0TDxAWoyEM_3XiM8UH39zqmzNGZU4tBQYeiFanIQ-lGOp5Un8YIXElXnTs",
           width: 1816,
@@ -310,8 +285,7 @@ const MOCK_DATA = {
       },
       icon: "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
       icon_background_color: "#FF9E67",
-      icon_mask_base_uri:
-        "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+      icon_mask_base_uri: "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
       name: "とらそば",
       opening_hours: {
         open_now: true,
@@ -319,9 +293,7 @@ const MOCK_DATA = {
       photos: [
         {
           height: 3000,
-          html_attributions: [
-            '<a href="https://maps.google.com/maps/contrib/103062840803234992426">とらそば</a>',
-          ],
+          html_attributions: ['<a href="https://maps.google.com/maps/contrib/103062840803234992426">とらそば</a>'],
           photo_reference:
             "ATplDJZqzc8uPztezYingR-oFZG5WNXuj028MmXkbEMDrR1vawXxRTY7WNgYXPi_f1VniNHRw1pe6bU0dvriNwS3cYHgZo7TXSKTdHyO6jc9DEauJmBholqCEZU4mjtYKQt6V90Sf5MfbMHnvK1VX3Xj9HEQx9V-Tg2wPgfP2bkF8N5RGJUv",
           width: 4000,
@@ -359,8 +331,7 @@ const MOCK_DATA = {
       },
       icon: "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/cafe-71.png",
       icon_background_color: "#FF9E67",
-      icon_mask_base_uri:
-        "https://maps.gstatic.com/mapfiles/place_api/icons/v2/cafe_pinlet",
+      icon_mask_base_uri: "https://maps.gstatic.com/mapfiles/place_api/icons/v2/cafe_pinlet",
       name: "喫茶室ルノアール 新宿西口エステックビル店",
       opening_hours: {
         open_now: true,
@@ -409,8 +380,7 @@ const MOCK_DATA = {
       },
       icon: "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/school-71.png",
       icon_background_color: "#7B9EB0",
-      icon_mask_base_uri:
-        "https://maps.gstatic.com/mapfiles/place_api/icons/v2/school_pinlet",
+      icon_mask_base_uri: "https://maps.gstatic.com/mapfiles/place_api/icons/v2/school_pinlet",
       name: "服部栄養専門学校",
       opening_hours: {
         open_now: true,
@@ -458,8 +428,7 @@ const MOCK_DATA = {
       },
       icon: "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/cafe-71.png",
       icon_background_color: "#FF9E67",
-      icon_mask_base_uri:
-        "https://maps.gstatic.com/mapfiles/place_api/icons/v2/cafe_pinlet",
+      icon_mask_base_uri: "https://maps.gstatic.com/mapfiles/place_api/icons/v2/cafe_pinlet",
       name: "星乃珈琲店 西新宿店",
       opening_hours: {
         open_now: true,
@@ -467,9 +436,7 @@ const MOCK_DATA = {
       photos: [
         {
           height: 6144,
-          html_attributions: [
-            '<a href="https://maps.google.com/maps/contrib/115365209007991200015">ぴぴねこ</a>',
-          ],
+          html_attributions: ['<a href="https://maps.google.com/maps/contrib/115365209007991200015">ぴぴねこ</a>'],
           photo_reference:
             "ATplDJbucjVADMmDm3ux1MsHdVSzJN8AH1Mb1Yf4tQzEJKkCr15dzP0699MLfG24TKHuq6Ss54X9SQ3ZVqMgTHpBp8meG0qrnP2hrHurFZxXfsZwAmuzhXTGbdLh2yiyQ_CzXDrS-1IgJNYXobZgVeJh2oRI3BMZ3RbyLMKMubzqA9oze3T9",
           width: 8192,

@@ -12,16 +12,9 @@ const SearchNotFoundPlace = ({ place }: SearchNotFoundPlaceProps) => {
       <div className="flex flex-col gap-y-4">
         <Title order={2}>Sorry</Title>
         <Text>{place}に一致する場所が見つかりませんでした</Text>
-        <Text>
-          地名ではなく駅名や店舗名などの施設名を入れるとヒットしやすくなります。
-        </Text>
+        <Text>地名ではなく駅名や店舗名などの施設名を入れるとヒットしやすくなります。</Text>
         <span>例：新宿 → 新宿駅</span>
-        <Button
-          variant="filled"
-          component={Link}
-          href="/"
-          leftSection={<IconSearch size={14} />}
-        >
+        <Button variant="filled" component={Link} href="/" leftSection={<IconSearch size={14} />}>
           条件を選び直す
         </Button>
       </div>

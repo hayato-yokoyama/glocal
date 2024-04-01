@@ -1,17 +1,9 @@
 import { PlaceDetailsResponse } from "@/types/googleMapApi";
 import { Anchor, Avatar, Badge, Divider, Text } from "@mantine/core";
-import {
-  IconClockFilled,
-  IconMapPinFilled,
-  IconPhoneFilled,
-  IconStarFilled,
-  IconWorld,
-} from "@tabler/icons-react";
+import { IconClockFilled, IconMapPinFilled, IconPhoneFilled, IconStarFilled, IconWorld } from "@tabler/icons-react";
 
 const fetchDetail = async (placeId: string) => {
-  const res = await fetch(
-    `http://localhost:3000/api/getPlaceDetail?placeId=${placeId}`
-  );
+  const res = await fetch(`http://localhost:3000/api/getPlaceDetail?placeId=${placeId}`);
   const data: PlaceDetailsResponse = await res.json();
   return data;
 };
@@ -63,12 +55,7 @@ const SearchCardDetailContent = async ({ placeId }: { placeId: string }) => {
         </li>
         <li className="flex items-center gap-x-3">
           <IconPhoneFilled size={20} className="fill-primary" />
-          <Anchor
-            href={`tel:${detail.result.formatted_phone_number}`}
-            c="black"
-            underline="always"
-            className="flex-1"
-          >
+          <Anchor href={`tel:${detail.result.formatted_phone_number}`} c="black" underline="always" className="flex-1">
             {detail.result.formatted_phone_number}
           </Anchor>
         </li>
