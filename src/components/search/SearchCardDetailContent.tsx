@@ -3,7 +3,7 @@ import { Anchor, Avatar, Badge, Divider, Text } from "@mantine/core";
 import { IconClockFilled, IconMapPinFilled, IconPhoneFilled, IconStarFilled, IconWorld } from "@tabler/icons-react";
 
 const fetchDetail = async (placeId: string) => {
-  const res = await fetch(`http://localhost:3000/api/getPlaceDetail?placeId=${placeId}`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/getPlaceDetail?placeId=${placeId}`);
   const data: PlaceDetailsResponse = await res.json();
   return data;
 };

@@ -5,7 +5,9 @@ import { PlaceResult, PlaceSearchResponse } from "@/types/googleMapApi";
 const searchPlaces = async (lat: number, lng: number, searchParams: SearchParams) => {
   const fetchPlaces = async (token?: string) => {
     const url = new URL(
-      `http://localhost:3000/api/searchPlace?lat=${lat}&lng=${lng}&distance=${searchParams.distance.toString()}`
+      `${
+        process.env.NEXT_PUBLIC_BASE_URL
+      }/api/searchPlace?lat=${lat}&lng=${lng}&distance=${searchParams.distance.toString()}`
     );
     if (searchParams.keyword) {
       url.searchParams.append("keyword", searchParams.keyword);
