@@ -1,7 +1,7 @@
 import SearchCardDetail from "@/components/search/SearchCardDetail";
-import { Card, Group, Image, Title } from "@mantine/core";
+import SearchCardImage from "@/components/search/SearchCardImage";
+import { Card, Group, Title } from "@mantine/core";
 import { IconStarFilled } from "@tabler/icons-react";
-import NextImage from "next/image";
 
 type SearchCardProps = {
   photo?: {
@@ -17,28 +17,11 @@ type SearchCardProps = {
   ratingTotal: number;
 };
 
-/** photoReferenceから検索結果の写真を取得する */
-const getPhotoUrl = (photoReference?: string) => {
-  if (photoReference === undefined) {
-    return null;
-  }
-  const url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=560&photoreference=${photoReference}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
-  return url;
-};
-
 const SearchCard = ({ photo, place, rating, ratingTotal, placeId }: SearchCardProps) => {
   return (
     <Card padding="xs" withBorder className="flex flex-col gap-y-3">
       <div className="relative aspect-video">
-        <Image
-          component={NextImage}
-          fill
-          sizes="(max-width: 768px) 100vw"
-          src={getPhotoUrl(photo?.photo_reference)}
-          alt=""
-          fallbackSrc="/no-image.jpg"
-          radius="sm"
-        />
+        <SearchCardImage photo={photo} />
       </div>
 
       <div>
