@@ -1,7 +1,7 @@
 import SearchCardDetail from "@/components/search/SearchCardDetail";
-import SearchCardImage from "@/components/search/SearchCardImage";
 import { Card, Group, Title } from "@mantine/core";
 import { IconStarFilled } from "@tabler/icons-react";
+import dynamic from "next/dynamic";
 
 type SearchCardProps = {
   photo?: {
@@ -16,6 +16,8 @@ type SearchCardProps = {
   rating: number;
   ratingTotal: number;
 };
+
+const SearchCardImage = dynamic(() => import("@/components/search/SearchCardImage"));
 
 const SearchCard = ({ photo, place, rating, ratingTotal, placeId }: SearchCardProps) => {
   return (
