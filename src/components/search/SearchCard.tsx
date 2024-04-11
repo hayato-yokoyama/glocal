@@ -17,7 +17,7 @@ type SearchCardProps = {
   ratingTotal: number;
 };
 
-const SearchCardImage = dynamic(() => import("@/components/search/SearchCardImage"));
+const SearchCardImage = dynamic(() => import("@/components/search/SearchCardImage"), { ssr: false });
 
 const SearchCard = ({ photo, place, rating, ratingTotal, placeId }: SearchCardProps) => {
   return (
