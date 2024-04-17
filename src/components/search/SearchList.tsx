@@ -1,24 +1,11 @@
 "use client";
 
 import SearchNotFoundPlace from "@/components/search/SearchNotFoundPlace";
+import { useLatLng } from "@/hooks/useLatLng";
 import { SearchParams } from "@/types/common";
-import { GeocodingResponse } from "@/types/googleMapApi";
-import useSWR from "swr";
 
 type SearchListProps = {
   searchParams: SearchParams;
-};
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
-/**
- * 緯度経度取得
- * */
-const useLatLng = (place: string) => {
-  const { data, error, isLoading } = useSWR<GeocodingResponse, Error>(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/getLatLng?address=${place}`,
-    fetcher
-  );
-  return { data, error, isEmpty: data && data.results.length === 0, isLoading };
 };
 
 const SearchList = ({ searchParams }: SearchListProps) => {
