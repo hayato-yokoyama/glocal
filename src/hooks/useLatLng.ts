@@ -4,9 +4,7 @@ import useSWR from "swr";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-/**
- * 緯度経度取得
- * */
+/** 緯度経度を取得する */
 export const useLatLng = (place: string) => {
   const [currentLocation, setCurrentLocation] = useState({ lat: 0, lng: 0 });
 
