@@ -114,7 +114,7 @@ type PlaceDetails = {
 // =====
 // 共通
 // =====
-type LatLng = {
+export type LatLng = {
   lat: number;
   lng: number;
 };
