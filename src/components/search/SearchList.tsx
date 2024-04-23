@@ -47,7 +47,7 @@ const SearchList = ({ searchParams }: SearchListProps) => {
   }
 
   /** レビュー数でソートしたplaces */
-  const sortedPlaces = places.results.sort((a, b) => {
+  const sortedPlaces = places.sort((a, b) => {
     if (a.user_ratings_total === undefined) {
       return 1;
     }
