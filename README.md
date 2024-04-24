@@ -1,34 +1,24 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Glocal
 
-## Getting Started
+`[開発中]` [Website](https://glocal-vis.vercel.app/)
 
-First, run the development server:
+Glocal は Google Map API を使用した場所検索サイトです。
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+★ の数ではなく、ユーザーのレビューの数の多さで場所を見つけることができます。
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Description
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Glocal は、0~5 で評価される ★ の数よりもレビューの数に重点を置いています。
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Google Map でレストランを探すときに、**★4.5 ついているけど、レビューが 10 件しかないレストランに行くよりも、★3.5 しかないけどレビューが 100 件あるレストランに行きたい**と思いませんか？
 
-## Learn More
+私は Google Map の ★ の基準に曖昧さを感じていました。Google Map は ★ の数で検索条件を絞ることはできますが、レビューの数で検索条件を絞ったり並び替えたりすることはできません。
 
-To learn more about Next.js, take a look at the following resources:
+そこで、Glocal は集まったレビューの数が多い順に場所を検索できるようにしました。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Framework: [Next.js (App Router)](https://nextjs.org/)
+- Styling: [Tailwind CSS](https://tailwindcss.com/)
+- UI Components: [Mantine](https://mantine.dev/)
+- Hosting: [Vercel](https://vercel.com/)
