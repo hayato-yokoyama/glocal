@@ -24,7 +24,7 @@ const SearchList = ({ searchParams }: SearchListProps) => {
     error: placesError,
     isEmpty: isPlacesEmpty,
     isLoading: isPlacesLoading,
-  } = useSearchPlaces(searchParams, latLng && !isLatLngEmpty ? latLng.results[0].geometry.location : undefined);
+  } = useSearchPlaces(searchParams, latLng || undefined);
 
   if (latLngError || placesError) {
     return <p>検索中にエラーが発生しました</p>;
@@ -46,29 +46,18 @@ const SearchList = ({ searchParams }: SearchListProps) => {
     return null;
   }
 
-  /** レビュー数でソートしたplaces */
-  const sortedPlaces = places.sort((a, b) => {
-    if (a.user_ratings_total === undefined) {
-      return 1;
-    }
-    if (b.user_ratings_total === undefined) {
-      return -1;
-    }
-    return b.user_ratings_total - a.user_ratings_total;
-  });
-
   return (
     <div className="mb-20 flex flex-col gap-y-4">
-      {sortedPlaces.map((place) => {
+      {places.map((place) => {
         return (
           <SearchCard
             key={place.place_id}
             photo={place.photos ? place.photos[0] : undefined}
-            place={place.name}
-            placeTypes={place.types}
+            place={place.name || ""}
+            placeTypes={place.types || []}
             rating={place.rating ? place.rating : 0}
             ratingTotal={place.user_ratings_total ? place.user_ratings_total : 0}
-            placeId={place.place_id}
+            placeId={place.place_id || ""}
           />
         );
       })}
