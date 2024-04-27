@@ -1,4 +1,4 @@
-import { GeocodingResponse } from "@/types/googleMapApi";
+import { GeocodeResponseData, LatLngLiteral } from "@googlemaps/google-maps-services-js";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 
@@ -6,7 +6,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 /** 緯度経度を取得する */
 export const useLatLng = (place: string) => {
-  const [currentLocation, setCurrentLocation] = useState({ lat: 0, lng: 0 });
+  const [currentLocation, setCurrentLocation] = useState<LatLngLiteral>({ lat: 0, lng: 0 });
 
   useEffect(() => {
     if (place === "現在地") {
@@ -28,15 +28,15 @@ export const useLatLng = (place: string) => {
     }
   }, [place]);
 
-  const { data, error, isLoading } = useSWR<GeocodingResponse, Error>(
-    place !== "現在地" ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/getLatLng?address=${place}` : null,
+  const { data, error, isLoading } = useSWR<GeocodeResponseData, Error>(
+    place !== "現在地" ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/geocode?address=${place}` : null,
     fetcher
   );
 
   return {
-    data: place === "現在地" ? { results: [{ geometry: { location: currentLocation } }] } : data,
+    data: place === "現在地" ? currentLocation : data?.results[0].geometry.location,
     error,
-    isEmpty: data && data.results.length === 0,
+    isEmpty: data && data.status === "ZERO_RESULTS",
     isLoading,
   };
 };

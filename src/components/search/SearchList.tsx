@@ -24,7 +24,7 @@ const SearchList = ({ searchParams }: SearchListProps) => {
     error: placesError,
     isEmpty: isPlacesEmpty,
     isLoading: isPlacesLoading,
-  } = useSearchPlaces(searchParams, latLng && !isLatLngEmpty ? latLng.results[0].geometry.location : undefined);
+  } = useSearchPlaces(searchParams, latLng || undefined);
 
   if (latLngError || placesError) {
     return <p>検索中にエラーが発生しました</p>;
