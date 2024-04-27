@@ -33,10 +33,28 @@ export const useLatLng = (place: string) => {
     fetcher
   );
 
+  if (place === "現在地") {
+    return {
+      data: currentLocation,
+      error,
+      isEmpty: false,
+      isLoading,
+    };
+  }
+
+  if (!data || data.status === "ZERO_RESULTS") {
+    return {
+      data: undefined,
+      error,
+      isEmpty: true,
+      isLoading,
+    };
+  }
+
   return {
-    data: place === "現在地" ? currentLocation : data?.results[0].geometry.location,
+    data: data.results[0].geometry.location,
     error,
-    isEmpty: data && data.status === "ZERO_RESULTS",
+    isEmpty: false,
     isLoading,
   };
 };
