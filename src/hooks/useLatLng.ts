@@ -29,7 +29,7 @@ export const useLatLng = (place: string) => {
   }, [place]);
 
   const { data, error, isLoading } = useSWR<GeocodeResponseData, Error>(
-    place !== "現在地" ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/geocode?address=${place}` : null,
+    place !== "現在地" ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/geocode/${place}` : null,
     fetcher
   );
 
