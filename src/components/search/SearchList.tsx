@@ -1,6 +1,8 @@
 "use client";
 
+import Loading from "@/app/search/[place]/[distance]/loading";
 import SearchCard from "@/components/search/SearchCard";
+import SearchError from "@/components/search/SearchError";
 import SearchNotFound from "@/components/search/SearchNotFound";
 import SearchNotFoundPlace from "@/components/search/SearchNotFoundPlace";
 import { useLatLng } from "@/hooks/useLatLng";
@@ -27,11 +29,11 @@ const SearchList = ({ searchParams }: SearchListProps) => {
   } = useSearchPlaces(searchParams, latLng || undefined);
 
   if (latLngError || placesError) {
-    return <p>検索中にエラーが発生しました</p>;
+    return <SearchError />;
   }
 
   if (isLatLngLoading || isPlacesLoading) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
 
   if (isLatLngEmpty) {
