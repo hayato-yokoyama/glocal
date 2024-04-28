@@ -22,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           <div className="mx-auto max-w-md px-4 lg:max-w-lg xl:max-w-xl">
             <Header />
-            <Space h="md" />
+            <Space h={16} />
             <main>{children}</main>
           </div>
         </MantineProvider>
