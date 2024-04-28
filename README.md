@@ -1,4 +1,6 @@
-# Glocal
+<p align="center">
+    <img alt="expo examples" height="128" src="https://github.com/dovicie/glocal/assets/65605945/3e91e06d-3261-43ef-a480-44e7895bdb91">
+</p>
 
 `[開発中]` [Website](https://glocal-vis.vercel.app/)
 

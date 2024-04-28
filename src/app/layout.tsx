@@ -4,7 +4,7 @@ import { ColorSchemeScript, MantineProvider, Space } from "@mantine/core";
 import "@mantine/core/styles.css";
 
 export const metadata = {
-  description: "Decide where to go based on the number of reviews.",
+  description: "ユーザーの評価の高さではなく、レビューの数の多さで場所を見つけることができる場所検索サイト",
   title: "Glocal",
 };
 
