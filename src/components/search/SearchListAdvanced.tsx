@@ -7,13 +7,13 @@ import SearchNotFound from "@/components/search/SearchNotFound";
 import SearchNotFoundPlace from "@/components/search/SearchNotFoundPlace";
 import { useLatLng } from "@/hooks/useLatLng";
 import { useSearchPlaces } from "@/hooks/useSearchPlaces";
-import { SearchParams } from "@/types/common";
+import { AdvancedSearchParams } from "@/types/common";
 
-type SearchListProps = {
-  searchParams: SearchParams;
+type SearchListAdvancedProps = {
+  searchParams: AdvancedSearchParams;
 };
 
-const SearchList = ({ searchParams }: SearchListProps) => {
+const SearchListAdvanced = ({ searchParams }: SearchListAdvancedProps) => {
   const {
     data: latLng,
     error: latLngError,
@@ -67,4 +67,4 @@ const SearchList = ({ searchParams }: SearchListProps) => {
   );
 };
 
-export default SearchList;
+export default SearchListAdvanced;

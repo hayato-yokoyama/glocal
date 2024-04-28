@@ -1,10 +1,10 @@
-import { SearchParams } from "@/types/common";
+import { AdvancedSearchParams } from "@/types/common";
 import { LatLngLiteral, PlaceData } from "@googlemaps/google-maps-services-js";
 import useSWR from "swr";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-const getUrl = (searchParams: SearchParams, latLng?: LatLngLiteral) => {
+const getUrl = (searchParams: AdvancedSearchParams, latLng?: LatLngLiteral) => {
   if (!latLng) {
     return null;
   }
@@ -26,7 +26,7 @@ const getUrl = (searchParams: SearchParams, latLng?: LatLngLiteral) => {
 };
 
 /** 検索条件、緯度経度から場所を取得する */
-export const useSearchPlaces = (searchParams: SearchParams, latLng?: LatLngLiteral) => {
+export const useSearchPlaces = (searchParams: AdvancedSearchParams, latLng?: LatLngLiteral) => {
   const {
     data: data,
     error: error,

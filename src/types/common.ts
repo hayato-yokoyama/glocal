@@ -1,4 +1,4 @@
-export type SearchParams = {
+export type AdvancedSearchParams = {
   distance: number;
   genre: string;
   isOpen: boolean;
