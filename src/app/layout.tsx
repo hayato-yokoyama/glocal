@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             primaryColor: "cyan",
           }}
         >
-          <div className="mx-auto max-w-md px-4 lg:max-w-lg xl:max-w-xl">
+          <div className="mx-auto max-w-screen-xl px-4">
             <Header />
             <Space h="md" />
             <main>{children}</main>
