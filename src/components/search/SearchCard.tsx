@@ -1,8 +1,8 @@
-import SearchCardImage from "@/components/search/SearchCardImage";
 import SearchCardModal from "@/components/search/SearchCardModal";
-import { Card, Group, Loader, Modal, Title } from "@mantine/core";
+import { Card, Group, Image, Loader, Modal, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconStarFilled } from "@tabler/icons-react";
+import NextImage from "next/image";
 import { Suspense } from "react";
 
 type SearchCardProps = {
@@ -21,6 +21,7 @@ type SearchCardProps = {
 
 const SearchCard = ({ photo, place, rating, ratingTotal, placeId }: SearchCardProps) => {
   const [isOpenDetail, { open, close }] = useDisclosure(false);
+  const photoUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/getPlaceImage?photo_reference=${photo?.photo_reference}`;
 
   return (
     <>
@@ -34,7 +35,15 @@ const SearchCard = ({ photo, place, rating, ratingTotal, placeId }: SearchCardPr
         tabIndex={0}
       >
         <div className="relative aspect-video">
-          <SearchCardImage photo={photo} />
+          <Image
+            component={NextImage}
+            fill
+            sizes="(max-width: 600px) 100vw"
+            src={photoUrl}
+            alt=""
+            fallbackSrc="/no-image.jpg"
+            radius="sm"
+          />
         </div>
 
         <div>
