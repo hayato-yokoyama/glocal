@@ -3,6 +3,7 @@ import { Carousel } from "@mantine/carousel";
 import "@mantine/carousel/styles.css";
 import { Anchor, Avatar, Badge, Group, Image, Text, Title } from "@mantine/core";
 import { IconClockFilled, IconMapPinFilled, IconPhoneFilled, IconStarFilled, IconWorld } from "@tabler/icons-react";
+import NextImage from "next/image";
 
 const fetchDetail = async (placeId: string) => {
   try {
@@ -19,13 +20,8 @@ type SearchCardModalProps = {
   placeId: string;
 };
 
-const images = [
-  "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-1.png",
-  "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-2.png",
-  "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-3.png",
-  "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-4.png",
-  "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-5.png",
-];
+const setPhotoUrl = (photoReference: string) =>
+  `${process.env.NEXT_PUBLIC_BASE_URL}/api/getPlaceImage?photo_reference=${photoReference}`;
 
 const SearchCardModal = async ({ placeId }: SearchCardModalProps) => {
   const detail = await fetchDetail(placeId);
@@ -46,15 +42,29 @@ const SearchCardModal = async ({ placeId }: SearchCardModalProps) => {
       </div>
     );
   }
+
+  const photos = detail.photos?.map((photo) => {
+    return setPhotoUrl(photo.photo_reference);
+  });
   return (
     <div className="flex flex-col gap-y-3">
-      <Carousel withIndicators loop>
-        {images.map((url) => (
-          <Carousel.Slide key={url}>
-            <Image src={url} alt="" />
-          </Carousel.Slide>
-        ))}
-      </Carousel>
+      {photos && (
+        <Carousel withIndicators loop>
+          {photos.map((url) => (
+            <Carousel.Slide key={url} className="relative aspect-[4/3]">
+              <Image
+                component={NextImage}
+                fill
+                sizes="(max-width: 600px) 100vw"
+                src={url}
+                alt=""
+                fallbackSrc="/no-image.jpg"
+                radius="sm"
+              />
+            </Carousel.Slide>
+          ))}
+        </Carousel>
+      )}
       <div>
         <Group>
           <span className="text-sm font-bold">
@@ -131,6 +141,7 @@ const SearchCardModal = async ({ placeId }: SearchCardModalProps) => {
               <li key={index}>
                 <SearchCardDetailReviews
                   comment={review.text}
+                  postingDate={review.relative_time_description}
                   reviewerIconPath={review.profile_photo_url}
                   reviewerName={review.author_name}
                   star={review.rating}
@@ -148,11 +159,13 @@ export default SearchCardModal;
 
 const SearchCardDetailReviews = ({
   comment,
+  postingDate,
   reviewerIconPath,
   reviewerName,
   star,
 }: {
   comment: string;
+  postingDate: string;
   reviewerIconPath: string;
   reviewerName: string;
   star: number;
@@ -164,7 +177,7 @@ const SearchCardDetailReviews = ({
         <span>{reviewerName}</span>
       </div>
       <div className="flex gap-x-2">
-        <span>1週間前</span>
+        <span>{postingDate}</span>
         <span className="flex items-center">
           <IconStarFilled size={12} className="fill-amber-400" />
           {star}
