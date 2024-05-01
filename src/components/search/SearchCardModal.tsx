@@ -1,6 +1,9 @@
 import { PlaceDetailsResponseData } from "@googlemaps/google-maps-services-js";
-import { Anchor, Avatar, Badge, Divider, Text } from "@mantine/core";
+import { Carousel } from "@mantine/carousel";
+import "@mantine/carousel/styles.css";
+import { Anchor, Avatar, Badge, Group, Image, Text, Title } from "@mantine/core";
 import { IconClockFilled, IconMapPinFilled, IconPhoneFilled, IconStarFilled, IconWorld } from "@tabler/icons-react";
+import NextImage from "next/image";
 
 const fetchDetail = async (placeId: string) => {
   try {
@@ -13,14 +16,69 @@ const fetchDetail = async (placeId: string) => {
   }
 };
 
-const SearchCardDetailContent = async ({ placeId }: { placeId: string }) => {
+type SearchCardModalProps = {
+  placeId: string;
+};
+
+const setPhotoUrl = (photoReference: string) =>
+  `${process.env.NEXT_PUBLIC_BASE_URL}/api/getPlaceImage?photo_reference=${photoReference}`;
+
+const SearchCardModal = async ({ placeId }: SearchCardModalProps) => {
   const detail = await fetchDetail(placeId);
   if (detail === undefined) {
-    return <Text>データの取得に失敗しました</Text>;
+    return (
+      <div className="flex flex-col gap-y-4">
+        <Title order={3} size="h4">
+          Sorry
+        </Title>
+        <Text>データの取得に失敗しました。もう一度お試しください。</Text>
+        <Text>
+          もし問題が解決しない場合は、お手数ですが管理者 (
+          <Anchor href="https://twitter.com/dovicie" target="_blank">
+            <span className="font-bold">@dovicie</span>
+          </Anchor>
+          ) までお問い合わせいただけると幸いです。
+        </Text>
+      </div>
+    );
   }
+
+  const photos = detail.photos?.map((photo) => {
+    return setPhotoUrl(photo.photo_reference);
+  });
   return (
     <div className="flex flex-col gap-y-3">
-      <Divider />
+      {photos && (
+        <Carousel withIndicators loop>
+          {photos.map((url) => (
+            <Carousel.Slide key={url} className="relative aspect-[4/3]">
+              <Image
+                component={NextImage}
+                fill
+                sizes="(max-width: 600px) 100vw"
+                src={url}
+                alt=""
+                fallbackSrc="/no-image.jpg"
+                radius="sm"
+              />
+            </Carousel.Slide>
+          ))}
+        </Carousel>
+      )}
+      <div>
+        <Group>
+          <span className="text-sm font-bold">
+            <span className="mr-1 text-lg text-pink-600">{detail.user_ratings_total || 0}</span>件
+          </span>
+          <span className="flex items-center gap-x-0.5 text-xs">
+            <IconStarFilled size={12} className="fill-amber-400" />
+            {detail.rating || 0}
+          </span>
+        </Group>
+        <Title order={3} size="h4" lineClamp={2}>
+          {detail.name || ""}
+        </Title>
+      </div>
       <ul className="m-0 flex list-none flex-col gap-y-2 p-0">
         {detail.opening_hours && (
           <li className="flex items-center gap-x-3">
@@ -77,36 +135,37 @@ const SearchCardDetailContent = async ({ placeId }: { placeId: string }) => {
         )}
       </ul>
       {detail.reviews && (
-        <>
-          <Divider />
-          <ul className="m-0 flex list-none flex-col gap-y-2 p-0 text-xs font-light">
-            {detail.reviews.map((review, index) => {
-              return (
-                <li key={index}>
-                  <SearchCardDetailReviews
-                    comment={review.text}
-                    reviewerIconPath={review.profile_photo_url}
-                    reviewerName={review.author_name}
-                    star={review.rating}
-                  />
-                </li>
-              );
-            })}
-          </ul>
-        </>
+        <ul className="m-0 flex list-none flex-col gap-y-2 p-0 text-xs font-light">
+          {detail.reviews.map((review, index) => {
+            return (
+              <li key={index}>
+                <SearchCardDetailReviews
+                  comment={review.text}
+                  postingDate={review.relative_time_description}
+                  reviewerIconPath={review.profile_photo_url}
+                  reviewerName={review.author_name}
+                  star={review.rating}
+                />
+              </li>
+            );
+          })}
+        </ul>
       )}
     </div>
   );
 };
-export default SearchCardDetailContent;
+
+export default SearchCardModal;
 
 const SearchCardDetailReviews = ({
   comment,
+  postingDate,
   reviewerIconPath,
   reviewerName,
   star,
 }: {
   comment: string;
+  postingDate: string;
   reviewerIconPath: string;
   reviewerName: string;
   star: number;
@@ -118,7 +177,7 @@ const SearchCardDetailReviews = ({
         <span>{reviewerName}</span>
       </div>
       <div className="flex gap-x-2">
-        <span>1週間前</span>
+        <span>{postingDate}</span>
         <span className="flex items-center">
           <IconStarFilled size={12} className="fill-amber-400" />
           {star}

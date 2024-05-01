@@ -48,5 +48,39 @@ export const useSearchPlaces = (searchParams: SearchParams, latLng?: LatLngLiter
     return b.user_ratings_total - a.user_ratings_total;
   });
 
-  return { data: sortedPlaces, error, isEmpty: data.length === 0, isLoading };
+  /** レビュー数の範囲でフィルタリングする */
+  const filterByRatingTotalRange = (
+    places: Partial<PlaceData>[],
+    minTotal: number,
+    maxTotal: number
+  ): Partial<PlaceData>[] => {
+    return places.filter(
+      (place) => place.user_ratings_total && place.user_ratings_total >= minTotal && place.user_ratings_total < maxTotal
+    );
+  };
+
+  const placesOver10000 = filterByRatingTotalRange(sortedPlaces, 10000, Number.MAX_SAFE_INTEGER);
+  const placesOver5000 = filterByRatingTotalRange(sortedPlaces, 5000, 10000);
+  const placesOver1000 = filterByRatingTotalRange(sortedPlaces, 1000, 5000);
+  const placesOver500 = filterByRatingTotalRange(sortedPlaces, 500, 1000);
+  const placesOver300 = filterByRatingTotalRange(sortedPlaces, 300, 500);
+  const placesOver100 = filterByRatingTotalRange(sortedPlaces, 100, 300);
+  const placesOver50 = filterByRatingTotalRange(sortedPlaces, 50, 100);
+  const placesUnder50 = filterByRatingTotalRange(sortedPlaces, 0, 50);
+
+  return {
+    data: {
+      placesOver100,
+      placesOver1000,
+      placesOver10000,
+      placesOver300,
+      placesOver50,
+      placesOver500,
+      placesOver5000,
+      placesUnder50,
+    },
+    error,
+    isEmpty: data.length === 0,
+    isLoading,
+  };
 };
