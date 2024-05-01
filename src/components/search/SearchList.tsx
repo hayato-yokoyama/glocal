@@ -1,6 +1,6 @@
 "use client";
 
-import Loading from "@/app/search/[place]/[distance]/loading";
+import Loading from "@/app/(default)/search/[place]/[distance]/loading";
 import SearchCard from "@/components/search/SearchCard";
 import SearchError from "@/components/search/SearchError";
 import SearchNotFound from "@/components/search/SearchNotFound";

@@ -1,4 +1,4 @@
-import "./globals.css";
+import "@/app/globals.css";
 import Header from "@/components/header/Header";
 import { ColorSchemeScript, MantineProvider, Space } from "@mantine/core";
 import "@mantine/core/styles.css";

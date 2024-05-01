@@ -52,7 +52,10 @@ const TopForm = () => {
   });
 
   return (
-    <form onSubmit={form.onSubmit((values) => handleClickSubmit(values))} className="flex flex-col gap-y-8">
+    <form
+      onSubmit={form.onSubmit((values) => handleClickSubmit(values))}
+      className="mx-auto flex w-full max-w-screen-md flex-col gap-y-8"
+    >
       <Fieldset className="flex flex-col gap-y-2" variant="unstyled">
         <TextInput
           size="md"
