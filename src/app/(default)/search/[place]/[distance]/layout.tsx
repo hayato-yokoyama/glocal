@@ -5,7 +5,7 @@ import "@mantine/core/styles.css";
 
 export const metadata = {
   description: "ユーザーの評価の高さではなく、レビューの数の多さで場所を見つけることができる場所検索サイト",
-  title: "Glocal",
+  title: "Glocal | レビューの数で場所を見つける場所検索サイト",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
