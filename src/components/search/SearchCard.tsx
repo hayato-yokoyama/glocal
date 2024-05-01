@@ -1,8 +1,9 @@
 import SearchCardImage from "@/components/search/SearchCardImage";
 import SearchCardModal from "@/components/search/SearchCardModal";
-import { Card, Group, Modal, Title } from "@mantine/core";
+import { Card, Group, Loader, Modal, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconStarFilled } from "@tabler/icons-react";
+import { Suspense } from "react";
 
 type SearchCardProps = {
   photo?: {
@@ -53,7 +54,17 @@ const SearchCard = ({ photo, place, rating, ratingTotal, placeId }: SearchCardPr
       </Card>
 
       <Modal opened={isOpenDetail} onClose={close} centered size="lg">
-        <SearchCardModal placeId={placeId} />
+        <Suspense
+          fallback={
+            <div className="text-center">
+              <Loader size="sm" />
+            </div>
+          }
+        >
+          {/* 下のコメント async functionを呼び出すと起こるNext13のエラー バージョン上げたら直るかも */}
+          {/* @ts-expect-error Server Component */}
+          <SearchCardModal placeId={placeId} />
+        </Suspense>
       </Modal>
     </>
   );

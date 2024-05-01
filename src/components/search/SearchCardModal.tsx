@@ -1,7 +1,19 @@
+import { PlaceDetailsResponseData } from "@googlemaps/google-maps-services-js";
 import { Carousel } from "@mantine/carousel";
 import "@mantine/carousel/styles.css";
 import { Anchor, Avatar, Badge, Group, Image, Text, Title } from "@mantine/core";
 import { IconClockFilled, IconMapPinFilled, IconPhoneFilled, IconStarFilled, IconWorld } from "@tabler/icons-react";
+
+const fetchDetail = async (placeId: string) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/placeDetails/${placeId}`);
+    const data: PlaceDetailsResponseData = await res.json();
+    const result = data.result;
+    return result;
+  } catch (error) {
+    return;
+  }
+};
 
 type SearchCardModalProps = {
   placeId: string;
@@ -15,7 +27,25 @@ const images = [
   "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-5.png",
 ];
 
-const SearchCardModal = ({ placeId }: SearchCardModalProps) => {
+const SearchCardModal = async ({ placeId }: SearchCardModalProps) => {
+  const detail = await fetchDetail(placeId);
+  if (detail === undefined) {
+    return (
+      <div className="flex flex-col gap-y-4">
+        <Title order={3} size="h4">
+          Sorry
+        </Title>
+        <Text>データの取得に失敗しました。もう一度お試しください。</Text>
+        <Text>
+          もし問題が解決しない場合は、お手数ですが管理者 (
+          <Anchor href="https://twitter.com/dovicie" target="_blank">
+            <span className="font-bold">@dovicie</span>
+          </Anchor>
+          ) までお問い合わせいただけると幸いです。
+        </Text>
+      </div>
+    );
+  }
   return (
     <div className="flex flex-col gap-y-3">
       <Carousel withIndicators loop>
@@ -28,100 +58,88 @@ const SearchCardModal = ({ placeId }: SearchCardModalProps) => {
       <div>
         <Group>
           <span className="text-sm font-bold">
-            <span className="mr-1 text-lg text-pink-600">300</span>件
+            <span className="mr-1 text-lg text-pink-600">{detail.user_ratings_total || 0}</span>件
           </span>
           <span className="flex items-center gap-x-0.5 text-xs">
             <IconStarFilled size={12} className="fill-amber-400" />
-            4.0
+            {detail.rating || 0}
           </span>
         </Group>
         <Title order={3} size="h4" lineClamp={2}>
-          東京タワー
+          {detail.name || ""}
         </Title>
       </div>
       <ul className="m-0 flex list-none flex-col gap-y-2 p-0">
-        <li className="flex items-center gap-x-3">
-          <IconClockFilled size={20} className="fill-primary" />
-          <Badge variant="light" color="teal" size="md">
-            営業中
-          </Badge>
-        </li>
-        <li className="flex items-center gap-x-3">
-          <IconMapPinFilled size={20} className="fill-primary" />
-          <Anchor
-            href="http://expmple.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            c="black"
-            underline="always"
-            className="flex-1"
-          >
-            Google Mapで見る
-          </Anchor>
-        </li>
-        <li className="flex items-center gap-x-3">
-          <IconWorld size={20} className="text-primary" />
-          <Anchor
-            href="http://expmple.com"
-            lineClamp={1}
-            target="_blank"
-            rel="noopener noreferrer"
-            c="black"
-            underline="always"
-            className="flex-1 whitespace-nowrap"
-          >
-            http://expmple.com
-          </Anchor>
-        </li>
-        <li className="flex items-center gap-x-3">
-          <IconPhoneFilled size={20} className="fill-primary" />
-          <Anchor href={`tel:00011112222`} c="black" underline="always" className="flex-1">
-            000-1111-2222
-          </Anchor>
-        </li>
+        {detail.opening_hours && (
+          <li className="flex items-center gap-x-3">
+            <IconClockFilled size={20} className="fill-primary" />
+            {detail.opening_hours.open_now ? (
+              <Badge variant="light" color="teal" size="md">
+                営業中
+              </Badge>
+            ) : (
+              <Badge variant="light" color="red" size="md">
+                営業時間外
+              </Badge>
+            )}
+          </li>
+        )}
+        {detail.url && (
+          <li className="flex items-center gap-x-3">
+            <IconMapPinFilled size={20} className="fill-primary" />
+            <Anchor
+              href={detail.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              c="black"
+              underline="always"
+              className="flex-1"
+            >
+              Google Mapで見る
+            </Anchor>
+          </li>
+        )}
+        {detail.website && (
+          <li className="flex items-center gap-x-3">
+            <IconWorld size={20} className="text-primary" />
+            <Anchor
+              href={detail.website}
+              lineClamp={1}
+              target="_blank"
+              rel="noopener noreferrer"
+              c="black"
+              underline="always"
+              className="flex-1 whitespace-nowrap"
+            >
+              {detail.website}
+            </Anchor>
+          </li>
+        )}
+        {detail.formatted_phone_number && (
+          <li className="flex items-center gap-x-3">
+            <IconPhoneFilled size={20} className="fill-primary" />
+            <Anchor href={`tel:${detail.formatted_phone_number}`} c="black" underline="always" className="flex-1">
+              {detail.formatted_phone_number}
+            </Anchor>
+          </li>
+        )}
       </ul>
-      <ul className="m-0 flex list-none flex-col gap-y-2 p-0 text-xs font-light">
-        <li>
-          <SearchCardDetailReviews
-            comment="彼らは今ちょうどその存在心ってのの末に進んありなけれ。すでに今に講演めも無論その専攻なうなりになるばいるですがは満足するだなて、それほどにもしですでないな。文字を云わです方は始めて事実がことにたたまし。"
-            reviewerIconPath=""
-            reviewerName="test-user"
-            star={3.8}
-          />
-        </li>
-        <li>
-          <SearchCardDetailReviews
-            comment="彼らは今ちょうどその存在心ってのの末に進んありなけれ。すでに今に講演めも無論その専攻なうなりになるばいるですがは満足するだなて、それほどにもしですでないな。文字を云わです方は始めて事実がことにたたまし。"
-            reviewerIconPath=""
-            reviewerName="test-user"
-            star={3.8}
-          />
-        </li>
-        <li>
-          <SearchCardDetailReviews
-            comment="彼らは今ちょうどその存在心ってのの末に進んありなけれ。すでに今に講演めも無論その専攻なうなりになるばいるですがは満足するだなて、それほどにもしですでないな。文字を云わです方は始めて事実がことにたたまし。"
-            reviewerIconPath=""
-            reviewerName="test-user"
-            star={3.8}
-          />
-        </li>
-        <li>
-          <SearchCardDetailReviews
-            comment="彼らは今ちょうどその存在心ってのの末に進んありなけれ。すでに今に講演めも無論その専攻なうなりになるばいるですがは満足するだなて、それほどにもしですでないな。文字を云わです方は始めて事実がことにたたまし。"
-            reviewerIconPath=""
-            reviewerName="test-user"
-            star={3.8}
-          />
-        </li>
-        <li>
-          <SearchCardDetailReviews
-            comment="彼らは今ちょうどその存在心ってのの末に進んありなけれ。すでに今に講演めも無論その専攻なうなりになるばいるですがは満足するだなて、それほどにもしですでないな。文字を云わです方は始めて事実がことにたたまし。"
-            reviewerIconPath=""
-            reviewerName="test-user"
-            star={3.8}
-          />
-        </li>
-      </ul>
+      {detail.reviews && (
+        <ul className="m-0 flex list-none flex-col gap-y-2 p-0 text-xs font-light">
+          {detail.reviews.map((review, index) => {
+            return (
+              <li key={index}>
+                <SearchCardDetailReviews
+                  comment={review.text}
+                  reviewerIconPath={review.profile_photo_url}
+                  reviewerName={review.author_name}
+                  star={review.rating}
+                />
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </div>
   );
 };
