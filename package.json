@@ -65,8 +65,5 @@
     "postcss-simple-vars": "^7.0.1",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0"
-  },
-  "volta": {
-    "node": "19.9.0"
   }
 }
