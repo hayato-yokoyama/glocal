@@ -70,7 +70,7 @@ const SearchCard = ({ photo, place, rating, ratingTotal, placeId }: SearchCardPr
             </div>
           }
         >
-          {/* 下のコメント async functionを呼び出すと起こるNext13のエラー バージョン上げたら直るかも */}
+          {/* async functionを呼び出すと起こるエラーの回避 */}
           {/* @ts-expect-error Server Component */}
           <SearchCardModal placeId={placeId} />
         </Suspense>
