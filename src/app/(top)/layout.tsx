@@ -1,6 +1,7 @@
 import "@/app/globals.css";
 import { Anchor, ColorSchemeScript, MantineProvider, Title } from "@mantine/core";
 import "@mantine/core/styles.css";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import Link from "next/link";
 
 export const metadata = {
@@ -11,6 +12,7 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
+      {process.env.NODE_ENV === "production" && <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ""} />}
       <head>
         <ColorSchemeScript />
       </head>
