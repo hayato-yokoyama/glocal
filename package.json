@@ -32,6 +32,7 @@
     "@mantine/core": "^7.6.2",
     "@mantine/form": "^7.6.2",
     "@mantine/hooks": "^7.6.2",
+    "@next/third-parties": "^14.2.3",
     "@tabler/icons-react": "^3.1.0",
     "@types/node": "20.2.5",
     "@types/react": "18.2.7",
