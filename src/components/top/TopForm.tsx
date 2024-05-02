@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Checkbox, Fieldset, Select, TextInput } from "@mantine/core";
+import { Button, Checkbox, Chip, Fieldset, Group, Select, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
@@ -90,6 +90,36 @@ const TopForm = () => {
           placeholder="オムライス"
           {...form.getInputProps("keyword")}
         />
+      </Fieldset>
+      <Fieldset variant="unstyled" legend={<span className="text-base font-bold">ジャンル（複数不可）</span>}>
+        <Chip.Group {...form.getInputProps("genre")}>
+          <Group>
+            <Chip value="restaurant">レストラン</Chip>
+            <Chip value="cafe">カフェ</Chip>
+            <Chip value="tourist_attraction">観光地</Chip>
+            <Chip value="lodging">ホテル・宿泊</Chip>
+            <Chip value="park">公園</Chip>
+            <Chip value="parking">駐車場</Chip>
+            <Chip value="travel_agency">観光案内・旅行会社</Chip>
+            <Chip value="movie_theater">映画館</Chip>
+            <Chip value="amusement_park">遊園地</Chip>
+            <Chip value="shopping_mall">ショッピングモール</Chip>
+            <Chip value="department_store">デパート</Chip>
+            <Chip value="spa">スパ・温泉</Chip>
+            <Chip value="supermarket">スーパー</Chip>
+            <Chip value="book_store">書店</Chip>
+            <Chip value="bakery">パン屋</Chip>
+            <Chip value="bar">バー・スナック</Chip>
+            <Chip value="beauty_salon">美容室</Chip>
+            <Chip value="gym">ジム・フィットネス</Chip>
+            <Chip value="hospital">病院・クリニック</Chip>
+            <Chip value="dentist">歯医者</Chip>
+            <Chip value="art_gallery">美術館</Chip>
+            <Chip value="museum">博物館</Chip>
+            <Chip value="aquarium">水族館</Chip>
+            <Chip value="campground">キャンプ場</Chip>
+          </Group>
+        </Chip.Group>
       </Fieldset>
       <Checkbox label="営業中のスポットのみを表示" className="mx-auto" {...form.getInputProps("isOpen")} />
       <Button type="submit" variant="filled" leftSection={<IconSearch size={14} />}>
