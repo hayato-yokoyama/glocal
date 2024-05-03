@@ -1,7 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["maps.googleapis.com", "localhost", "glocal-vis.vercel.app"],
+    remotePatterns: [
+      { hostname: "maps.googleapis.com", protocol: "https" },
+      { hostname: "localhost", protocol: "http" },
+      { hostname: "glocal-vis.vercel.app", protocol: "https" },
+    ],
   },
 };
 
