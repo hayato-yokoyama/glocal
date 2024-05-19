@@ -60,6 +60,7 @@ const SearchCardModal = async ({ placeId }: SearchCardModalProps) => {
                 alt=""
                 fallbackSrc="/no-image.jpg"
                 radius="sm"
+                unoptimized
               />
             </Carousel.Slide>
           ))}
