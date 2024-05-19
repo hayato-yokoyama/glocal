@@ -43,6 +43,7 @@ const SearchCard = ({ photo, place, rating, ratingTotal, placeId }: SearchCardPr
             alt=""
             fallbackSrc="/no-image.jpg"
             radius="sm"
+            unoptimized
           />
         </div>
 
