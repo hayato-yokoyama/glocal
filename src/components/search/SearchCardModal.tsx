@@ -34,8 +34,8 @@ const SearchCardModal = async ({ placeId }: SearchCardModalProps) => {
         <Text>データの取得に失敗しました。もう一度お試しください。</Text>
         <Text>
           もし問題が解決しない場合は、お手数ですが管理者 (
-          <Anchor href="https://twitter.com/dovicie" target="_blank">
-            <span className="font-bold">@dovicie</span>
+          <Anchor href="https://twitter.com/hayatoyokoyama_" target="_blank">
+            <span className="font-bold">@hayatoyokoyama_</span>
           </Anchor>
           ) までお問い合わせいただけると幸いです。
         </Text>
