@@ -1,5 +1,5 @@
 import SearchList from "@/components/search/SearchList";
-import { SearchParams } from "@/types/common";
+import { SearchParams, StationResponse } from "@/types/common";
 import { Affix, Button } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
 import Link from "next/link";
@@ -40,12 +40,20 @@ const SearchPage = async ({
   params: { distance: number; place: string };
   searchParams: { genre?: string; isOpen?: boolean; keyword?: string };
 }) => {
+  // 地名と同名の駅があるかどうか、取得する
+  const stationResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/getStation/${params.place}`);
+  const stationData: StationResponse = await stationResponse.json();
+  const isStationName = stationData.response.station ? true : false;
+
+  /** 駅名変換したPlace */
+  const adjustedPlace = isStationName ? `${params.place}駅` : params.place;
+
   const formattedSearchParams: SearchParams = {
     distance: params.distance,
     genre: searchParams.genre ? decodeURIComponent(searchParams.genre) : "",
     isOpen: searchParams.isOpen ? true : false,
     keyword: searchParams.keyword ? decodeURIComponent(searchParams.keyword) : "",
-    place: decodeURIComponent(params.place),
+    place: decodeURIComponent(adjustedPlace),
   };
 
   return (
