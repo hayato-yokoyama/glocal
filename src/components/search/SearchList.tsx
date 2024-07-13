@@ -9,7 +9,7 @@ import { useLatLng } from "@/hooks/useLatLng";
 import { useSearchPlaces } from "@/hooks/useSearchPlaces";
 import { SearchParams } from "@/types/common";
 import { PlaceData } from "@googlemaps/google-maps-services-js";
-import { Title } from "@mantine/core";
+import { Alert, Title } from "@mantine/core";
 
 type SearchListProps = {
   searchParams: SearchParams;
@@ -51,15 +51,24 @@ const SearchList = ({ searchParams }: SearchListProps) => {
   }
 
   return (
-    <div className="flex flex-col gap-y-12">
-      <SearchListSection minTotal={10000} places={places.placesOver10000} />
-      <SearchListSection minTotal={5000} places={places.placesOver5000} />
-      <SearchListSection minTotal={1000} places={places.placesOver1000} />
-      <SearchListSection minTotal={500} places={places.placesOver500} />
-      <SearchListSection minTotal={300} places={places.placesOver300} />
-      <SearchListSection minTotal={100} places={places.placesOver100} />
-      <SearchListSection minTotal={50} places={places.placesOver50} />
-      <SearchListSection places={places.placesUnder50} />
+    <div className="flex flex-col gap-y-6">
+      <Alert variant="light" color="cyan">
+        <span className="mr-1 font-bold">{searchParams.place}</span>
+        から
+        <span className="mx-1 font-bold">{searchParams.distance}m</span>
+        圏内の検索結果
+      </Alert>
+
+      <div className="flex flex-col gap-y-12">
+        <SearchListSection minTotal={10000} places={places.placesOver10000} />
+        <SearchListSection minTotal={5000} places={places.placesOver5000} />
+        <SearchListSection minTotal={1000} places={places.placesOver1000} />
+        <SearchListSection minTotal={500} places={places.placesOver500} />
+        <SearchListSection minTotal={300} places={places.placesOver300} />
+        <SearchListSection minTotal={100} places={places.placesOver100} />
+        <SearchListSection minTotal={50} places={places.placesOver50} />
+        <SearchListSection places={places.placesUnder50} />
+      </div>
     </div>
   );
 };
