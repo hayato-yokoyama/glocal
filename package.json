@@ -49,6 +49,22 @@
     "tailwindcss": "3.3.2",
     "typescript": "5.0.4"
   },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {},
+      "postcss-preset-mantine": {},
+      "postcss-simple-vars": {
+        "variables": {
+          "mantine-breakpoint-lg": "75em",
+          "mantine-breakpoint-md": "62em",
+          "mantine-breakpoint-sm": "48em",
+          "mantine-breakpoint-xl": "88em",
+          "mantine-breakpoint-xs": "36em"
+        }
+      },
+      "tailwindcss": {}
+    }
+  },
   "devDependencies": {
     "@markuplint/jsx-parser": "^3.9.0",
     "@markuplint/react-spec": "^3.10.0",
