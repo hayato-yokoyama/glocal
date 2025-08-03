@@ -2,12 +2,18 @@ import { Anchor, Button, Text, Title } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
 import Link from "next/link";
 
-const SearchError = () => {
+type SearchErrorProps = {
+  error?: Error | null;
+};
+
+const SearchError = ({ error }: SearchErrorProps) => {
+  const errorMessage = error?.message || "検索中にエラーが発生しました。しばらくしてからもう一度お試しください。";
+
   return (
     <div className="flex h-64 items-center justify-center">
       <div className="flex w-full flex-col gap-y-4">
         <Title order={2}>Sorry</Title>
-        <Text>検索中にエラーが発生しました。しばらくしてからもう一度お試しください。</Text>
+        <Text>{errorMessage}</Text>
         <Text>
           もし問題が解決しない場合は、お手数ですが管理者 (
           <Anchor href="https://twitter.com/hayatoyokoyama_" target="_blank">

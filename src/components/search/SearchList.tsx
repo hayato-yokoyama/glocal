@@ -31,7 +31,7 @@ const SearchList = ({ searchParams }: SearchListProps) => {
   } = useSearchPlaces(searchParams, latLng || undefined);
 
   if (latLngError || placesError) {
-    return <SearchError />;
+    return <SearchError error={latLngError || placesError} />;
   }
 
   if (isLatLngLoading || isPlacesLoading) {
