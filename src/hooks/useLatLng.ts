@@ -7,9 +7,12 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 /** 緯度経度を取得する */
 export const useLatLng = (place: string) => {
   const [currentLocation, setCurrentLocation] = useState<LatLngLiteral>({ lat: 0, lng: 0 });
+  const [isCurrentLocationLoading, setIsCurrentLocationLoading] = useState(false);
 
   useEffect(() => {
     if (place === "現在地") {
+      setIsCurrentLocationLoading(true);
+
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
@@ -17,12 +20,14 @@ export const useLatLng = (place: string) => {
               lat: position.coords.latitude,
               lng: position.coords.longitude,
             });
+            setIsCurrentLocationLoading(false);
           },
-          (error) => {
-            throw new Error("緯度経度の取得に失敗しました");
+          () => {
+            setIsCurrentLocationLoading(false);
           }
         );
       } else {
+        setIsCurrentLocationLoading(false);
         console.error("このブラウザでは、Geolocation APIがサポートされていません");
       }
     }
@@ -38,7 +43,7 @@ export const useLatLng = (place: string) => {
       data: currentLocation,
       error,
       isEmpty: false,
-      isLoading,
+      isLoading: isCurrentLocationLoading,
     };
   }
 
