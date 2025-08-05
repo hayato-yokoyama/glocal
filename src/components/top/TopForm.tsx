@@ -4,6 +4,7 @@ import { Button, Checkbox, Chip, Fieldset, Group, Select, TextInput } from "@man
 import { useForm } from "@mantine/form";
 import { IconSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 
 type FormValues = {
   distance: string;
@@ -15,6 +16,7 @@ type FormValues = {
 
 const TopForm = () => {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   const handleClickSubmit = (params: FormValues) => {
     const { place, distance, keyword, genre, isOpen } = params;
@@ -35,7 +37,10 @@ const TopForm = () => {
     }
 
     const url = `/search/${pathParams}${queryParams.slice(0, -1)}`;
-    router.push(url);
+
+    startTransition(() => {
+      router.push(url);
+    });
   };
 
   const form = useForm<FormValues>({
@@ -122,9 +127,15 @@ const TopForm = () => {
         </Chip.Group>
       </Fieldset>
       <Checkbox label="営業中のスポットのみを表示" className="mx-auto" {...form.getInputProps("isOpen")} />
-      <Button type="submit" variant="filled" leftSection={<IconSearch size={14} />}>
+      <Button
+        type="submit"
+        variant="filled"
+        leftSection={<IconSearch size={14} />}
+        loading={isPending}
+        disabled={isPending}
+      >
         この条件で探す
-      </Button>{" "}
+      </Button>
     </form>
   );
 };
