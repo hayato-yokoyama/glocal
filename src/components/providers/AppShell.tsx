@@ -9,6 +9,7 @@ const AppShell = ({ children }: { children: React.ReactNode }) => {
       theme={{
         primaryColor: "cyan",
       }}
+      defaultColorScheme="light"
     >
       <div className="mx-auto max-w-screen-xl px-4 pb-8">
         <Title unstyled order={1} className="my-4 text-center text-4xl  sm:mb-16 sm:mt-24 sm:text-7xl">

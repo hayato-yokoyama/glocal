@@ -11,10 +11,10 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ja">
+    <html lang="ja" data-mantine-color-scheme="light">
       {process.env.NODE_ENV === "production" && <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ""} />}
       <head>
-        <ColorSchemeScript />
+        <ColorSchemeScript defaultColorScheme="light" />
       </head>
       <body>
         <AppShell>{children}</AppShell>
