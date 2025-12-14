@@ -1,8 +1,6 @@
+import SearchActionAffix from "@/components/search/SearchActionAffix";
 import SearchList from "@/components/search/SearchList";
 import { SearchParams, StationResponse } from "@/types/common";
-import { Affix, Button } from "@mantine/core";
-import { IconSearch } from "@tabler/icons-react";
-import Link from "next/link";
 
 export async function generateMetadata({ params }: { params: { distance: string; place: string } }) {
   const place = decodeURIComponent(params.place);
@@ -59,11 +57,7 @@ const SearchPage = async ({
   return (
     <div className="mb-20 flex flex-col gap-y-4">
       <SearchList searchParams={formattedSearchParams} />
-      <Affix position={{ bottom: 0 }} className="flex h-16 w-full items-center justify-center gap-x-4 bg-slate-200">
-        <Button variant="filled" component={Link} href="/" leftSection={<IconSearch size={14} />}>
-          条件を選び直す
-        </Button>
-      </Affix>
+      <SearchActionAffix />
     </div>
   );
 };
