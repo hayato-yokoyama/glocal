@@ -49,7 +49,7 @@ const SearchCardModal = async ({ placeId }: SearchCardModalProps) => {
   return (
     <div className="flex flex-col gap-y-3">
       {photos && (
-        <Carousel withIndicators loop>
+        <Carousel withIndicators emblaOptions={{ loop: true }}>
           {photos.map((url) => (
             <Carousel.Slide key={url} className="relative aspect-[4/3]">
               <Image

@@ -72,7 +72,6 @@ const SearchCard = ({ photo, place, rating, ratingTotal, placeId }: SearchCardPr
           }
         >
           {/* async functionを呼び出すと起こるエラーの回避 */}
-          {/* @ts-expect-error Server Component */}
           <SearchCardModal placeId={placeId} />
         </Suspense>
       </Modal>
