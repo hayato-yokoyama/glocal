@@ -1,9 +1,12 @@
+"use client";
+
 import { PlaceDetailsResponseData } from "@googlemaps/google-maps-services-js";
 import { Carousel } from "@mantine/carousel";
 import "@mantine/carousel/styles.css";
-import { Anchor, Avatar, Badge, Group, Image, Text, Title } from "@mantine/core";
+import { Anchor, Avatar, Badge, Group, Image, Loader, Text, Title } from "@mantine/core";
 import { IconClockFilled, IconMapPinFilled, IconPhoneFilled, IconStarFilled, IconWorld } from "@tabler/icons-react";
 import NextImage from "next/image";
+import useSWR from "swr";
 
 const fetchDetail = async (placeId: string) => {
   try {
@@ -20,12 +23,27 @@ type SearchCardModalProps = {
   placeId: string;
 };
 
+type PlaceDetail = PlaceDetailsResponseData["result"];
+
 const setPhotoUrl = (photoReference: string) =>
   `${process.env.NEXT_PUBLIC_BASE_URL}/api/getPlaceImage?photo_reference=${photoReference}`;
 
-const SearchCardModal = async ({ placeId }: SearchCardModalProps) => {
-  const detail = await fetchDetail(placeId);
-  if (detail === undefined) {
+const SearchCardModal = ({ placeId }: SearchCardModalProps) => {
+  const {
+    data: detail,
+    error,
+    isLoading,
+  } = useSWR<PlaceDetail | undefined>(placeId ? ["place-details", placeId] : null, async () => fetchDetail(placeId));
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center py-6">
+        <Loader size="sm" />
+      </div>
+    );
+  }
+
+  if (error || !detail) {
     return (
       <div className="flex flex-col gap-y-4">
         <Title order={3} size="h4">
@@ -49,7 +67,7 @@ const SearchCardModal = async ({ placeId }: SearchCardModalProps) => {
   return (
     <div className="flex flex-col gap-y-3">
       {photos && (
-        <Carousel withIndicators loop>
+        <Carousel withIndicators emblaOptions={{ loop: true }}>
           {photos.map((url) => (
             <Carousel.Slide key={url} className="relative aspect-[4/3]">
               <Image

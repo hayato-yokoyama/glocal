@@ -1,3 +1,5 @@
+"use client";
+
 import "../../app/globals.css";
 import { Anchor, Title } from "@mantine/core";
 import Link from "next/link";

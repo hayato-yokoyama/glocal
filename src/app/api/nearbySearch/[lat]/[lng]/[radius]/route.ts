@@ -1,9 +1,14 @@
 import { Client, Language, PlaceData } from "@googlemaps/google-maps-services-js";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const client = new Client({});
 
-export async function GET(request: Request, { params }: { params: { lat: string; lng: string; radius: string } }) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ lat: string; lng: string; radius: string }> }
+) {
+  const { lat, lng, radius } = await params;
+
   if (process.env.NODE_ENV === "development") {
     return NextResponse.json(DUMMY_RESPONSE);
   }
@@ -23,10 +28,10 @@ export async function GET(request: Request, { params }: { params: { lat: string;
         key: process.env.GOOGLE_MAPS_API_KEY || "",
         keyword: keyword || undefined,
         language: Language.ja,
-        location: [Number(params.lat), Number(params.lng)],
+        location: [Number(lat), Number(lng)],
         opennow: isOpen === "true",
         pagetoken: nextPageToken,
-        radius: Number(params.radius),
+        radius: Number(radius),
         type: genre || undefined,
       },
     });

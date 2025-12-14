@@ -1,12 +1,14 @@
 import { Client } from "@googlemaps/google-maps-services-js";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const client = new Client({});
 
-export async function GET(request: Request, { params }: { params: { address: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ address: string }> }) {
+  const { address } = await params;
+
   const response = await client.geocode({
     params: {
-      address: params.address,
+      address,
       key: process.env.GOOGLE_MAPS_API_KEY || "",
     },
   });
