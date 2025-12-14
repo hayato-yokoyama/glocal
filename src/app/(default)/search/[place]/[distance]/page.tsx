@@ -2,9 +2,9 @@ import SearchActionAffix from "@/components/search/SearchActionAffix";
 import SearchList from "@/components/search/SearchList";
 import { SearchParams, StationResponse } from "@/types/common";
 
-export async function generateMetadata({ params }: { params: { distance: string; place: string } }) {
-  const place = decodeURIComponent(params.place);
-  const distance = params.distance;
+export async function generateMetadata({ params }: { params: Promise<{ distance: string; place: string }> }) {
+  const { distance, place } = await params;
+  const decodedPlace = decodeURIComponent(place);
   const range = (distance: string) => {
     if (distance === "200") {
       return "徒歩2分圏内";
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: { params: { distance: string;
     return `${distance}m圏内`;
   };
   return {
-    title: `${place}から${range(distance)}の検索結果 | Glocal | レビューの数で場所を見つける場所検索サイト`,
+    title: `${decodedPlace}から${range(distance)}の検索結果 | Glocal | レビューの数で場所を見つける場所検索サイト`,
   };
 }
 
@@ -35,22 +35,24 @@ const SearchPage = async ({
   params,
   searchParams,
 }: {
-  params: { distance: number; place: string };
-  searchParams: { genre?: string; isOpen?: boolean; keyword?: string };
+  params: Promise<{ distance: string; place: string }>;
+  searchParams: Promise<{ genre?: string; isOpen?: boolean; keyword?: string }>;
 }) => {
+  const { distance, place } = await params;
+  const { genre, isOpen, keyword } = await searchParams;
   // 地名と同名の駅があるかどうか、取得する
-  const stationResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/getStation/${params.place}`);
+  const stationResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/getStation/${place}`);
   const stationData: StationResponse = await stationResponse.json();
   const isStationName = stationData.response.station ? true : false;
 
   /** 駅名変換したPlace */
-  const adjustedPlace = isStationName ? `${params.place}駅` : params.place;
+  const adjustedPlace = isStationName ? `${place}駅` : place;
 
   const formattedSearchParams: SearchParams = {
-    distance: params.distance,
-    genre: searchParams.genre ? decodeURIComponent(searchParams.genre) : "",
-    isOpen: searchParams.isOpen ? true : false,
-    keyword: searchParams.keyword ? decodeURIComponent(searchParams.keyword) : "",
+    distance: Number(distance),
+    genre: genre ? decodeURIComponent(genre) : "",
+    isOpen: isOpen ? true : false,
+    keyword: keyword ? decodeURIComponent(keyword) : "",
     place: decodeURIComponent(adjustedPlace),
   };
 
