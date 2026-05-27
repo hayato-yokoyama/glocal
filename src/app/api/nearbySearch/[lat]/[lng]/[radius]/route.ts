@@ -1,46 +1,52 @@
 import { Client, Language, PlaceData } from "@googlemaps/google-maps-services-js";
+import { Effect } from "effect";
 import { NextRequest, NextResponse } from "next/server";
 
 const client = new Client({});
 
 const FOOD_GROUP_TYPES = ["restaurant", "cafe", "bar", "bakery"] as const;
 
-async function fetchByType(
+function fetchByType(
   lat: string,
   lng: string,
   radius: string,
   type: string | undefined,
   keyword: string | null,
   isOpen: string | null
-): Promise<Partial<PlaceData>[]> {
-  let nextPageToken = undefined;
-  let results: Partial<PlaceData>[] = [];
+): Effect.Effect<Partial<PlaceData>[], Error> {
+  return Effect.tryPromise({
+    catch: (error) => new Error(`NearbySearch API failed: ${error}`),
+    try: async () => {
+      let nextPageToken = undefined;
+      let results: Partial<PlaceData>[] = [];
 
-  for (let i = 0; i < 3; i++) {
-    const response = await client.placesNearby({
-      params: {
-        key: process.env.GOOGLE_MAPS_API_KEY || "",
-        keyword: keyword || undefined,
-        language: Language.ja,
-        location: [Number(lat), Number(lng)],
-        opennow: isOpen === "true",
-        pagetoken: nextPageToken,
-        radius: Number(radius),
-        type: type || undefined,
-      },
-    });
+      for (let i = 0; i < 3; i++) {
+        const response = await client.placesNearby({
+          params: {
+            key: process.env.GOOGLE_MAPS_API_KEY || "",
+            keyword: keyword || undefined,
+            language: Language.ja,
+            location: [Number(lat), Number(lng)],
+            opennow: isOpen === "true",
+            pagetoken: nextPageToken,
+            radius: Number(radius),
+            type: type || undefined,
+          },
+        });
 
-    results = results.concat(response.data.results);
+        results = results.concat(response.data.results);
 
-    if (response.data.next_page_token) {
-      nextPageToken = response.data.next_page_token;
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-    } else {
-      break;
-    }
-  }
+        if (response.data.next_page_token) {
+          nextPageToken = response.data.next_page_token;
+          await new Promise((resolve) => setTimeout(resolve, 2000));
+        } else {
+          break;
+        }
+      }
 
-  return results;
+      return results;
+    },
+  });
 }
 
 export async function GET(
@@ -58,16 +64,22 @@ export async function GET(
   const genre = searchParams.get("genre");
   const isOpen = searchParams.get("isOpen");
 
-  if (genre === "food_group") {
-    const allResults = await Promise.all(
-      FOOD_GROUP_TYPES.map((type) => fetchByType(lat, lng, radius, type, keyword, isOpen))
-    );
-    const merged = allResults.flat();
-    const deduped = Array.from(new Map(merged.map((p) => [p.place_id, p])).values());
-    return NextResponse.json(deduped);
-  }
+  const fetchEffect =
+    genre === "food_group"
+      ? Effect.all(FOOD_GROUP_TYPES.map((type) => fetchByType(lat, lng, radius, type, keyword, isOpen))).pipe(
+          Effect.map((allResults) => {
+            const merged = allResults.flat();
+            return Array.from(new Map(merged.map((p) => [p.place_id, p])).values());
+          })
+        )
+      : fetchByType(lat, lng, radius, genre || undefined, keyword, isOpen);
 
-  return NextResponse.json(await fetchByType(lat, lng, radius, genre || undefined, keyword, isOpen));
+  const program = fetchEffect.pipe(
+    Effect.map((results) => NextResponse.json(results)),
+    Effect.catchAll((error) => Effect.succeed(NextResponse.json({ error: error.message }, { status: 500 })))
+  );
+
+  return Effect.runPromise(program);
 }
 
 const DUMMY_RESPONSE = [

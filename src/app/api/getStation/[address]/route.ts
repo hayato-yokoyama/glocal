@@ -1,20 +1,21 @@
 import { StationResponse } from "@/types/common";
-import { NextRequest, NextResponse } from "next/server";
+import { Effect } from "effect";
+import { NextResponse } from "next/server";
 
 /** 地名と同名の駅を取得する */
-export async function GET(request: NextRequest, { params }: { params: Promise<{ address: string }> }) {
+export async function GET(_: Request, { params }: { params: Promise<{ address: string }> }) {
   const { address } = await params;
 
-  try {
-    const response = await fetch(`https://express.heartrails.com/api/json?method=getStations&name=${address}`);
-    const data: StationResponse = await response.json();
-    return NextResponse.json(data);
-  } catch (error) {
-    const response: StationResponse = {
-      response: {
-        error: "Error fetching station data",
-      },
-    };
-    return NextResponse.json(response);
-  }
+  const program = Effect.tryPromise({
+    catch: () => new Error("Error fetching station data"),
+    try: async () => {
+      const response = await fetch(`https://express.heartrails.com/api/json?method=getStations&name=${address}`);
+      return response.json() as Promise<StationResponse>;
+    },
+  }).pipe(
+    Effect.map((data) => NextResponse.json(data)),
+    Effect.catchAll(() => Effect.succeed(NextResponse.json({ response: { error: "Error fetching station data" } })))
+  );
+
+  return Effect.runPromise(program);
 }
