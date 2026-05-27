@@ -99,8 +99,7 @@ const TopForm = () => {
       <Fieldset variant="unstyled" legend={<span className="text-base font-bold">ジャンル（複数不可）</span>}>
         <Chip.Group {...form.getInputProps("genre")}>
           <Group>
-            <Chip value="restaurant">レストラン</Chip>
-            <Chip value="cafe">カフェ</Chip>
+            <Chip value="food_group">飲食</Chip>
             <Chip value="tourist_attraction">観光地</Chip>
             <Chip value="lodging">ホテル・宿泊</Chip>
             <Chip value="park">公園</Chip>
@@ -113,8 +112,6 @@ const TopForm = () => {
             <Chip value="spa">スパ・温泉</Chip>
             <Chip value="supermarket">スーパー</Chip>
             <Chip value="book_store">書店</Chip>
-            <Chip value="bakery">パン屋</Chip>
-            <Chip value="bar">バー・スナック</Chip>
             <Chip value="beauty_salon">美容室</Chip>
             <Chip value="gym">ジム・フィットネス</Chip>
             <Chip value="hospital">病院・クリニック</Chip>

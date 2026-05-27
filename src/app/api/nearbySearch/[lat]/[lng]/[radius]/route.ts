@@ -3,6 +3,46 @@ import { NextRequest, NextResponse } from "next/server";
 
 const client = new Client({});
 
+const FOOD_GROUP_TYPES = ["restaurant", "cafe", "bar", "bakery"] as const;
+
+async function fetchByType(
+  lat: string,
+  lng: string,
+  radius: string,
+  type: string | undefined,
+  keyword: string | null,
+  isOpen: string | null
+): Promise<Partial<PlaceData>[]> {
+  let nextPageToken = undefined;
+  let results: Partial<PlaceData>[] = [];
+
+  for (let i = 0; i < 3; i++) {
+    const response = await client.placesNearby({
+      params: {
+        key: process.env.GOOGLE_MAPS_API_KEY || "",
+        keyword: keyword || undefined,
+        language: Language.ja,
+        location: [Number(lat), Number(lng)],
+        opennow: isOpen === "true",
+        pagetoken: nextPageToken,
+        radius: Number(radius),
+        type: type || undefined,
+      },
+    });
+
+    results = results.concat(response.data.results);
+
+    if (response.data.next_page_token) {
+      nextPageToken = response.data.next_page_token;
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+    } else {
+      break;
+    }
+  }
+
+  return results;
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ lat: string; lng: string; radius: string }> }
@@ -18,35 +58,16 @@ export async function GET(
   const genre = searchParams.get("genre");
   const isOpen = searchParams.get("isOpen");
 
-  let nextPageToken = undefined;
-  let results: Partial<PlaceData>[] = [];
-
-  // 最大3ページまで取得する
-  for (let i = 0; i < 3; i++) {
-    const response = await client.placesNearby({
-      params: {
-        key: process.env.GOOGLE_MAPS_API_KEY || "",
-        keyword: keyword || undefined,
-        language: Language.ja,
-        location: [Number(lat), Number(lng)],
-        opennow: isOpen === "true",
-        pagetoken: nextPageToken,
-        radius: Number(radius),
-        type: genre || undefined,
-      },
-    });
-
-    results = results.concat(response.data.results);
-
-    // 次のページのトークンがあれば取得し、なければループを抜ける
-    if (response.data.next_page_token) {
-      nextPageToken = response.data.next_page_token;
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-    } else {
-      break;
-    }
+  if (genre === "food_group") {
+    const allResults = await Promise.all(
+      FOOD_GROUP_TYPES.map((type) => fetchByType(lat, lng, radius, type, keyword, isOpen))
+    );
+    const merged = allResults.flat();
+    const deduped = Array.from(new Map(merged.map((p) => [p.place_id, p])).values());
+    return NextResponse.json(deduped);
   }
-  return NextResponse.json(results);
+
+  return NextResponse.json(await fetchByType(lat, lng, radius, genre || undefined, keyword, isOpen));
 }
 
 const DUMMY_RESPONSE = [
