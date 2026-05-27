@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 const client = new Client({});
 
-export async function GET(_request: Request, { params }: { params: Promise<{ address: string }> }) {
+export async function GET(_: Request, { params }: { params: Promise<{ address: string }> }) {
   const { address } = await params;
 
   const program = Effect.tryPromise({

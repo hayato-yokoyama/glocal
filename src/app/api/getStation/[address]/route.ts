@@ -3,7 +3,7 @@ import { Effect } from "effect";
 import { NextResponse } from "next/server";
 
 /** 地名と同名の駅を取得する */
-export async function GET(_request: Request, { params }: { params: Promise<{ address: string }> }) {
+export async function GET(_: Request, { params }: { params: Promise<{ address: string }> }) {
   const { address } = await params;
 
   const program = Effect.tryPromise({
