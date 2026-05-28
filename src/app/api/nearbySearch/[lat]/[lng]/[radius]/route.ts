@@ -66,7 +66,10 @@ export async function GET(
 
   const fetchEffect =
     genre === "food_group"
-      ? Effect.all(FOOD_GROUP_TYPES.map((type) => fetchByType(lat, lng, radius, type, keyword, isOpen))).pipe(
+      ? Effect.all(
+          FOOD_GROUP_TYPES.map((type) => fetchByType(lat, lng, radius, type, keyword, isOpen)),
+          { concurrency: "unbounded" }
+        ).pipe(
           Effect.map((allResults) => {
             const merged = allResults.flat();
             return Array.from(new Map(merged.map((p) => [p.place_id, p])).values());
