@@ -85,5 +85,13 @@ type SearchParams = {
 ### 環境要件
 
 - `NEXT_PUBLIC_BASE_URL` - API 呼び出し用ベース URL
-- Google Maps API キー（API ルートで設定）
+- `GOOGLE_MAPS_API_KEY` - Google Maps API キー（サーバーサイドのみ）
+- `NEXT_PUBLIC_GA_ID` - Google Analytics 測定 ID（本番のみ挿入）
+- `USE_MOCK_NEARBY_SEARCH` - `true` で `/api/nearbySearch` が `src/mocks/nearbySearch.json` を返す（任意）
 - 開発用 Node.js 環境
+
+設定項目の雛形は `.env.example` を参照。
+
+### モックデータ
+
+API キーを使わずに検索フローを確認したい場合は `.env.local` に `USE_MOCK_NEARBY_SEARCH=true` を設定する。`/api/nearbySearch` のみがモック化され、種別・キーワード・営業中による絞り込みと `food_group` の並列取得・重複排除は実装どおりに実行される。未設定時は開発環境でも実 API を呼び出す。
