@@ -7,7 +7,7 @@
 - 検索フロー: 入力（地名/現在地）→ `useLatLng` で緯度経度取得 → `/api/nearbySearch/:lat/:lng/:radius` で周辺検索 → `user_ratings_total` 降順で並び替え → レビュー数帯でグルーピング表示。
 - 駅名判定: `src/app/(default)/search/[place]/[distance]/page.tsx` で同名駅を検出し、該当時は `◯◯駅` に変換して検索。
 - グルーピング表示: 10000/5000/1000/500/300/100/50 件以上＋ 50 件以下でセクション化（`SearchList`）。
-- API ルート: Route Handlers（`src/app/api/**`）。例: `/api/nearbySearch/:lat/:lng/:radius?keyword&genre&isOpen`。開発時は `NODE_ENV === 'development'` でダミー応答。
+- API ルート: Route Handlers（`src/app/api/**`）。例: `/api/nearbySearch/:lat/:lng/:radius?keyword&genre&isOpen`。`USE_MOCK_NEARBY_SEARCH=true` を指定したときのみ `src/mocks/nearbySearch.json` を返す（既定では開発環境でも実 API を呼ぶ）。
 - 役割分担: サーバ（Route Handlers）で外部 API 集約、クライアントは `SWR` で取得・キャッシュ。詳細は Server Component を `Suspense` で読込。
 - 画像/分析: Place Photos は `/api/getPlaceImage` でプロキシ。GA は本番時のみ `<GoogleAnalytics gaId={NEXT_PUBLIC_GA_ID}>` を挿入。
 
@@ -20,7 +20,8 @@
   - 型定義: `src/types/**`
 - 静的アセット: `public/`
 - 設定: `next.config.js`, `tailwind.config.js`, `tsconfig.json`
-- 環境変数: `.env.local`（未コミット）
+- モックデータ: `src/mocks/**`
+- 環境変数: `.env.local`（未コミット）。設定項目は `.env.example` を参照
 
 ## Build, Test, and Development Commands
 
@@ -56,7 +57,8 @@
 
 ## Security & Configuration Tips
 
-- 環境変数: `GOOGLE_MAPS_API_KEY`, `NEXT_PUBLIC_BASE_URL`, `NEXT_PUBLIC_GA_ID` を `.env.local` に設定。公開リポジトリへコミットしないこと。
+- 環境変数: `GOOGLE_MAPS_API_KEY`, `NEXT_PUBLIC_BASE_URL`, `NEXT_PUBLIC_GA_ID` を `.env.local` に設定。公開リポジトリへコミットしないこと。雛形は `.env.example`。
+- モック応答: API キーを使わずに検索フローを確認したい場合は `.env.local` に `USE_MOCK_NEARBY_SEARCH=true` を設定する。`/api/nearbySearch` だけがモック化され、ジャンル・キーワード・営業中の絞り込みと `food_group` の重複排除は実装どおりに動作する。
 - 外部 API 呼び出しはサーバ側 Route Handlers（`src/app/api/**`）を優先し、クライアントには公開不要な値を渡さない。
 
 ## Future Extensions（拡張の指針）
